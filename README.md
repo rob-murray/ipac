@@ -10,6 +10,9 @@ The application manages the IP addresses on multiple sites
 
 ## Pre-requisites
 
+JDK >=1.7.x
+PostgreSQL >=9.1
+Java Application server - Apache Tomcat >=7.0 is fine and tested
 
 ## Build instructions
 
