@@ -14,7 +14,14 @@ The application manages the IP addresses on multiple sites
 * PostgreSQL >=9.1
 * Java Application server - Apache Tomcat >=7.0 is fine and tested
 
+## Contents
+
+* /DB - contains database schema creation script and initial data inserts
+* /webapp - web application source roots
+
 ## Build instructions
+
+More information to follow...
 
 
 ## Deployment instructions
