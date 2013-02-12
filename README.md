@@ -1,53 +1,96 @@
 IPAC - IP Addressing and Connectivity
 ====
 
-## Description
+Description
+-------
+
+###### IPAC stands for IP addressing and Connectivity - It is a web application that manages IP addresses and host connectivity.
+
 
 IPAC is a IP addressing and Connectivity enterprise management application designed for Network Operations or Datacentre management teams.
 
-The application manages the IP addresses on multiple sites
+The application manages the IP addresses on multiple sites...
+
+#### Features
+
+Here are some of the features available
+
+* Site based architecture
+* Multiple VLANs per site
+* Hosts with configurable interfaces
+* Manage subnets
+* Set host IP address or get the next available
+* User authentication, control access to sections
+* Audit trail of activity and changes
+
+#### How to get started
+
+To use this application we need a few items:
+
+* Postgres database
+* Java application server
+* JDK to build the deployable artifact
+
+For more information about using this application see [Installation](#installation) to install or [Usage Intructions](ipac/tree/master/Usage_Instructions.md)
 
 
-## Pre-requisites
+If you wish to contribute and enhance this application the please see the [Development](#development) section.
+
+
+
+Contents
+-------
+
+Within this project there are the following sections:
+
+* [Usage Intructions](ipac/tree/master/Usage_Instructions.md) - A guide to using the application
+* /DB - Database schema creation scripts and initial data insert statements
+* /WEBAPP - Web application source directory
+
+
+Getting started
+-------
+
+### Installation
+
+
+More information to follow...
+
+
+#### Pre-requisites
 
 * JDK >=1.7.x
 * PostgreSQL >=9.1
 * Application servers - Does not require full JEE stack; Apache Tomcat >=7.0 and Jetty is fine and tested
-
-## Contents
-
-* /DB - contains database schema creation script and initial data inserts
-* /WEBAPP - web application source roots
-
-## Build instructions
-
-More information to follow...
+* Apache Maven ~3
 
 
-## Deployment instructions
-
+#### Build instructions
 
 More information to follow...
 
 
 
-## Contributions
+### Development
+
+
+To get going with development (I am assuming you are using eclipse):
+
+1. `git clone https://github.com/rob-murray/ipac.git`
+2. cd to dir
+3. `mvn eclipse:eclipse -Dwtpversion=2.0`
+
+To run with Jetty; `mvn jetty:run`
 
 Please use the GitHub pull-request mechanism to submit contributions.
 
-To get going:
 
-1) <pre>git clone https://github.com/rob-murray/ipac.git</pre>
-2) move to dir
-3) <pre>mvn eclipse:eclipse -Dwtpversion=2.0</pre>
-4) <pre>mvn jetty:run</pre>
-
-
-## License
+License
+-------
 
 This project is available for use under the GNU General Public License.
 
-For full details see LICENSE.md
+For full details see [LICENSE](ipac/tree/master/LICENSE.md)
 
 IPAC is a IP addressing and Connectivity enterprise management 
 application designed for Network Operations or Datacentre management teams.
