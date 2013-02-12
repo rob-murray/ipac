@@ -1,0 +1,63 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                    http://www.springframework.org/schema/security 
+                    http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+                        
+                        
+                       
+
+    <http use-expressions="true">
+        
+        
+        <!-- Allow all to root urls -->
+        <intercept-url pattern="/" access="permitAll" />
+        <intercept-url pattern="/index" access="permitAll" />
+        <intercept-url pattern="/login" access="permitAll" />
+        <!-- Secure the /host urls -->
+        <intercept-url pattern="/hosts/*/edit" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/hosts/*/delete" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/hosts/add" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/hosts" access="hasRole('ROLE_USER')" />
+        <intercept-url pattern="/hosts/**" access="hasRole('ROLE_USER')" />
+
+        <!-- Secure the /interface urls -->
+        <intercept-url pattern="/interface/add/**" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/interface/team/**" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/interface/*/edit" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/interface/*/delete" access="hasRole('ROLE_ADMIN')" />
+
+        <!-- Secure the /ipaddress urls -->
+        <intercept-url pattern="/ipaddress/**" access="hasRole('ROLE_ADMIN')" />
+
+        <!-- Secure the /subnet urls -->
+        <intercept-url pattern="/subnets/add/**" access="hasRole('ROLE_ADMIN')" />
+
+        <!-- Secure the /switchport urls -->
+        <intercept-url pattern="/switchport/**" access="hasRole('ROLE_ADMIN')" />
+
+        <!-- Secure the /vlan urls -->
+        <intercept-url pattern="/vlans/add" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/vlans" access="hasRole('ROLE_USER')" />
+        <intercept-url pattern="/vlans/*" access="hasRole('ROLE_USER')" />
+        
+
+        <!-- Allow all others to user role -->
+        <intercept-url pattern="/*" access="hasRole('ROLE_USER')" />
+
+        <!-- Config auth urls -->
+        <form-login login-page="/login" default-target-url="/index" authentication-failure-url="/loginfailed" />
+        <logout logout-success-url="/logout" />
+        
+    </http>
+    
+    
+
+    <authentication-manager>
+        <authentication-provider>
+            <user-service id="userDetailsService" properties="file:${config.dir}/users.properties"/>
+        </authentication-provider>
+    </authentication-manager>
+</beans:beans>   

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+  
+    <!-- Tell spring to search this package for things to do -->
+    <context:component-scan base-package="com.ipac.app" />
+    
+    <!--  Load Application specific properties files 
+    	These files live outside the war and we need to set the System property
+    	config.dir
+    	-->
+    <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+		<property name="locations">
+		<list>
+			<value>file:${config.dir}/ipac_app.properties</value>
+			<value>file:${config.dir}/database.properties</value>
+		</list>
+	</property>
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+	</bean>
+
+    <!-- Tell spring and hibernate were using annotation driven config -->
+    <!-- <mvc:annotation-driven /> RM removed to handle flashscope interceptor-->
+    <tx:annotation-driven />
+    
+    <!-- Add interceptor to handle flash messages -->
+    <bean id="flashScopeInterceptor" class="com.ipac.app.web.flashscope.FlashScopeInterceptor" />
+    <bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+        <property name="interceptors">
+            <list><ref bean="flashScopeInterceptor"/></list>
+        </property>
+    </bean>    
+
+    <!-- Config how to resolve views -->
+    <bean id="jspViewResolver"
+        class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    
+    <!-- Data source configuration -->
+    <bean id="dataSource"
+        class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${db.driverClassName}" />
+        <property name="url" value="${db.url}" />
+        <property name="username" value="${db.username}" />
+        <property name="password" value="${db.password}" />
+    </bean>
+
+    <!-- Hibernate configuration -->
+    <bean id="sessionFactory"
+        class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="annotatedClasses">
+            <list>
+                <value>com.ipac.app.model.hibernate.HibernateHost</value>
+                <value>com.ipac.app.model.hibernate.HibernateInterface</value>
+                <value>com.ipac.app.model.hibernate.HibernateInterfaceType</value>
+                <value>com.ipac.app.model.hibernate.HibernateSubnet</value>
+                <value>com.ipac.app.model.hibernate.HibernateVlan</value>
+                <value>com.ipac.app.model.hibernate.HibernateInterfaceIp</value>
+                <value>com.ipac.app.model.hibernate.HibernateSwitchport</value>
+                <value>com.ipac.app.model.hibernate.HibernateSwitch</value>
+                <value>com.ipac.app.model.hibernate.HibernateSite</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.default_schema">${hibernate.default_schema}</prop>
+                <prop key="hibernate.generate_statistics">${hibernate.generate_statistics}</prop>
+                <prop key="hibernate.c3p0.min_size">${hibernate.c3p0.min_size}</prop>
+                <prop key="hibernate.c3p0.max_size">${hibernate.c3p0.max_size}</prop>
+                <prop key="hibernate.c3p0.timeout">${hibernate.c3p0.timeout}</prop>
+                <prop key="hibernate.c3p0.max_statements">${hibernate.c3p0.max_statements}</prop>
+            </props>
+        </property>
+
+        <!-- Configure eventlisteners for Auditing : Hibernate Envers DONT NEED THIS WITH HIBERNATE4
+        <property name="eventListeners">   
+            <map>
+                <entry key="post-insert"><bean class="org.hibernate.envers.event.AuditEventListener"/></entry>
+                <entry key="post-update"><bean class="org.hibernate.envers.event.AuditEventListener"/></entry>
+                <entry key="post-delete"><bean class="org.hibernate.envers.event.AuditEventListener"/></entry>
+                <entry key="pre-collection-update"><bean class="org.hibernate.envers.event.AuditEventListener"/></entry>
+                <entry key="pre-collection-remove"><bean class="org.hibernate.envers.event.AuditEventListener"/></entry>
+                <entry key="post-collection-recreate"><bean class="org.hibernate.envers.event.AuditEventListener"/></entry>
+            </map>
+        </property>-->
+        
+    </bean>
+
+    <bean id="transactionManager"
+        class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <!-- End hibernate conf -->
+    
+    <!-- Create jacksonMessageConverter bean for returning JSON -->
+    <bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"></bean>
+        <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <ref bean="jacksonMessageConverter"/>
+            </list>
+        </property>
+    </bean>    
+    
+    <!-- the mvc resources tag allows access to resources in webapp-->
+    <mvc:resources mapping="/resources/**" location="/WEB-INF/resources/*" />
+
+
+</beans>
