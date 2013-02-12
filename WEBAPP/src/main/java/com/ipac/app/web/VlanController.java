@@ -20,7 +20,8 @@ import com.ipac.app.service.VlanService;
 
 
 /**
- * Handles all /vlan view requests
+ * Handles all /vlan requests
+ * 
  * @author RMurray
  */
 @Controller
@@ -61,7 +62,7 @@ public class VlanController extends IpacWebController {
     }    
     
    /**
-    * Handles and retrieves ALL vlans and show it in a JSP page
+    * Handles search request and passes search results to the list view
     *
     * @return the name of the JSP page
     */
@@ -90,7 +91,7 @@ public class VlanController extends IpacWebController {
     /**
     * Handles and request to show one vlan show page
     *
-    * @params vlanId - the id of the vlan to show
+    * @param vlanId The id of the vlan to show
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/{vlanId}"}, method = RequestMethod.GET )
@@ -137,9 +138,10 @@ public class VlanController extends IpacWebController {
     
     
     /**
-    * Handles POST request to add vlan
-    *
-    * @return the name of the JSP page
+    * Handles POST request to persist a VLAN
+    * 
+    * @param vlan The VLAN model object from form
+    * @return redirect
     */
     @RequestMapping( value={"/add"}, method = RequestMethod.POST )
     public String postAdd( @ModelAttribute("vlanAttribute") HibernateVlan vlan, Model model ) {

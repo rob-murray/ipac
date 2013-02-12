@@ -48,8 +48,10 @@ public class IpAddressController extends IpacWebController {
     
     
     /**
-    * Handles and request for add interface Ip JSP page - basic
+    * Handles and request for add interface IP JSP page
     *
+    * @param interfaceId the ID of the interface to attach the IP address
+    * @param siteId The ID of the site, used to determine which VLANs are used
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/addBasic"}, method = RequestMethod.GET, params = {"interfaceId","siteId"} )
@@ -74,10 +76,14 @@ public class IpAddressController extends IpacWebController {
     
     
     /**
-    * Handles POST request to add interface
-    *
-    * @return the name of the JSP page
-    */
+     * Handles POST request to persist IP address
+     * 
+     * @param interfaceId the ID of the interface to attach the IP address
+     * @param siteId siteId The ID of the site, used to determine which VLANs are used
+     * @param interfaceIp The IP address model object to store
+     * @param model 
+     * @return redirect
+     */
     @RequestMapping( value={"/addBasic"}, method = RequestMethod.POST, params = {"interfaceId","siteId"} )
     public String postAdd( @RequestParam("interfaceId") Integer interfaceId, @RequestParam("siteId") Integer siteId, 
     		@ModelAttribute("interfaceIpAttribute") HibernateInterfaceIp interfaceIp, Model model ) {
@@ -148,9 +154,10 @@ public class IpAddressController extends IpacWebController {
     }  
     
     /**
-    * Handles POST request to add interface
-    *
-    * @return the name of the JSP page
+    * Handles request to delete IP address
+    * 
+    * @param interfaceIpId The ID of the IP address to delete
+    * @return redirect
     */
     @RequestMapping( value={"/{interfaceIpId}/delete"}, method = RequestMethod.GET )
     public String getDelete( @PathVariable Integer interfaceIpId, Model model ) {
@@ -173,11 +180,12 @@ public class IpAddressController extends IpacWebController {
     
     
     /**
-    * Handles GET request for next available IP address for subnet. Note: returns JSON
+    * Handles GET request for next available IP address for subnet passed and renders as JSON
     *
-    * @return the name of the JSP page
+    * @param subnetId The ID of the subnet to get the IP address
+    * @return List<String> of IP addresses as Strings
     */
-    @RequestMapping( value={"/nextAvailable.json{subnetId}"}, method = RequestMethod.GET, 
+    @RequestMapping( value={"/nextAvailable.json"}, method = RequestMethod.GET, 
     		headers="Accept=application/xml, application/json", params = "subnetId" )
     public @ResponseBody List<String> getNext( @RequestParam("subnetId") Integer subnetId) {
         
@@ -194,7 +202,9 @@ public class IpAddressController extends IpacWebController {
 
     /**
     * Method to perform repeated task of added attributes to model for addbasic form view
-    * @param model
+    * 
+    * @param model object
+    * @param siteId the ID of the site to relate to
     * @return model with added attributes
     */    
     private Model setBasicViewModelAttrs(Model model, Integer siteId){

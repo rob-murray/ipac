@@ -41,6 +41,7 @@ public class SwitchportController extends IpacWebController {
     /**
     * Handles and request for connect switchport JSP page
     *
+    * @param interfaceId The ID of the interface to connect
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/connect"}, method = RequestMethod.GET, params = "interfaceId" )
@@ -71,8 +72,10 @@ public class SwitchportController extends IpacWebController {
     
     /**
     * Handles POST request to connect
-    *
-    * @return the name of the JSP page
+    * 
+    * @param interfaceId The ID of the interface to connect
+    * @param switchport The switchport model object from form
+    * @return redirect
     */
     @RequestMapping( value={"/connect"}, method = RequestMethod.POST, params = "interfaceId" )
     public String postConnect( @RequestParam("interfaceId") Integer interfaceId, @ModelAttribute("switchportAttribute") HibernateSwitchport switchport, Model model ) {

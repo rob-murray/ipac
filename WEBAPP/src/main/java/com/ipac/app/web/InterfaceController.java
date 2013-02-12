@@ -5,12 +5,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.annotation.Resource;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,7 +23,6 @@ import com.ipac.app.model.validation.InterfaceValidation;
 import com.ipac.app.service.InterfaceIpService;
 import com.ipac.app.service.InterfaceService;
 import com.ipac.app.service.InterfaceTypeService;
-import com.ipac.app.service.UserService;
 
 
 /**
@@ -50,7 +45,8 @@ public class InterfaceController extends IpacWebController {
     
     /**
     * Handles and request for add interface JSP page
-    *
+    * 
+    * @param hostId The ID of the host to add an interface to
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/add"}, method = RequestMethod.GET, params = "hostId" )
@@ -81,19 +77,21 @@ public class InterfaceController extends IpacWebController {
     
     /**
     * Handles POST request to add interface
-    *
-    * @return the name of the JSP page
+    * 
+    * @param hostId The ID of the host to add an interface to
+    * @param interfaceAttr The model representation from form
+    * @return redirect
     */
     @RequestMapping( value={"/add"}, method = RequestMethod.POST, params = "hostId" )
-    public String postAdd( @RequestParam("hostId") Integer hostId, @ModelAttribute("interfaceAttribute") HibernateInterface intf, Model model ) {
+    public String postAdd( @RequestParam("hostId") Integer hostId, @ModelAttribute("interfaceAttribute") HibernateInterface interfaceAttr, Model model ) {
         
         logger.debug("Received post request to add interace to host id: "+hostId);
         
         //Set created by attr to model
-        intf.setCreatedBy( userService.getCurrentUsername() );
+        interfaceAttr.setCreatedBy( userService.getCurrentUsername() );
         
         // Delegate to service
-        interfaceService.add(hostId, intf);
+        interfaceService.add(hostId, interfaceAttr);
         
         model.addAttribute("flashScope.message", "Interface added to host.");
 
@@ -106,7 +104,8 @@ public class InterfaceController extends IpacWebController {
     
     /**
     * Handles and request for edit interface JSP page
-    *
+    * 
+    * @param interfaceId The ID of the interface to edit
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/{interfaceId}/edit"}, method = RequestMethod.GET )
@@ -138,6 +137,8 @@ public class InterfaceController extends IpacWebController {
     /**
     * Handles POST request to edit interface
     *
+    * @param interfaceId The ID of the interface to edit
+    * @param interfaceAttr The model representation from form
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/{interfaceId}/edit"}, method = RequestMethod.POST )
@@ -166,7 +167,8 @@ public class InterfaceController extends IpacWebController {
     
     /**
     * Handles GET request to delete interface
-    *
+    * 
+    * @param interfaceId The ID of the interface to edit
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/{interfaceId}/delete"}, method = RequestMethod.GET )
@@ -220,8 +222,9 @@ public class InterfaceController extends IpacWebController {
 
     
     /**
-    * Handles GET request for add interface JSP page
-    *
+    * Handles GET request for team interface JSP page
+    * 
+    * @param hostId The ID of the host having these interfaces to allow user to choose
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/team"}, method = RequestMethod.GET, params = "hostId" )
@@ -280,10 +283,13 @@ public class InterfaceController extends IpacWebController {
     
     
     /**
-    * Handles POST request for add interface JSP page
-    *
-    * @return the name of the JSP page
-    */
+     * Handles POST to team a selection of interfaces for one host
+     * 
+     * @param hostId The ID of the host having these interfaces to allow user to choose
+     * @param teamedInterfaceDto The DTO for a teamed interface, basically a list of interface IDs
+     * @param model
+     * @return redirect
+     */
     @RequestMapping( value={"/team"}, method = RequestMethod.POST, params = "hostId" )
     public String setTeam( @RequestParam("hostId") Integer hostId, @ModelAttribute("interfaceAttr") TeamedInterfaceDto teamedInterfaceDto, Model model ) {
         

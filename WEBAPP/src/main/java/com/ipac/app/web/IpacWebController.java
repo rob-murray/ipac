@@ -9,7 +9,8 @@ import com.ipac.app.service.UserService;
 
 
 /**
- * IpacWebController default webcontroller for application
+ * IpacWebController default webcontroller for application.
+ * Extend this Class to utilise common methods and attributes
  * 
  * @author rmurray
  *
@@ -22,7 +23,7 @@ public class IpacWebController {
 	protected UserService userService;
 
     /**
-     * Values from ipac properties file
+     * Values from ipac_app.properties file
      */
     @Value("${ipac.version}")
     private String ipacVersion;
@@ -36,7 +37,7 @@ public class IpacWebController {
     /**
     * Return the current running version
     *
-    * @return String
+    * @return The current version of this application as a String
     */    
     protected String getCurrentIPACVersion(){
         //Return value from properties file or return NONE
@@ -46,7 +47,7 @@ public class IpacWebController {
     /**
     * Return the maximum items to display in lists
     *
-    * @return Integer
+    * @return the maximum items to display in lists
     */    
     protected Integer getMaxListItems(){
         //Return value from properties file
@@ -54,9 +55,9 @@ public class IpacWebController {
     } 
     
     /**
-    * Return the 
+    * Return the database ID of the Interface defined as the Teamed Interface
     *
-    * @return Integer
+    * @return an Integer to represent the Teamed Interface
     */    
     protected Integer getTeamedInterfaceId(){
     	//Return value from properties file

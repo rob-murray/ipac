@@ -9,6 +9,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class LoginController {
  
+	/**
+	 * 
+	 * @param model
+	 * @param principal
+	 * @return
+	 */
 	@RequestMapping(value="/welcome", method = RequestMethod.GET)
 	public String printWelcome(ModelMap model, Principal principal ) {
  
@@ -19,6 +25,11 @@ public class LoginController {
  
 	}
  
+	/**
+	 * 
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value="/login", method = RequestMethod.GET)
 	public String login(ModelMap model) {
  
@@ -26,6 +37,11 @@ public class LoginController {
  
 	}
  
+	/**
+	 * 
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value="/loginfailed", method = RequestMethod.GET)
 	public String loginerror(ModelMap model) {
  
@@ -34,6 +50,11 @@ public class LoginController {
  
 	}
  
+	/**
+	 * 
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
 	public String logout(ModelMap model) {
  

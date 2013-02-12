@@ -2,16 +2,8 @@
 package com.ipac.app.web;
 
 import java.util.List;
-import java.util.Properties;
 import javax.annotation.Resource;
-import org.apache.log4j.Logger;
 
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -26,7 +18,7 @@ import com.ipac.app.model.Site;
 import com.ipac.app.model.hibernate.HibernateHost;
 import com.ipac.app.service.HostService;
 import com.ipac.app.service.SiteService;
-import com.ipac.app.service.UserService;
+import com.ipac.app.web.helpers.PagedHostView;
 
 
 /**
@@ -46,10 +38,12 @@ public class HostController extends IpacWebController {
 
     
     /**
-    * Handles and retrieves ALL hosts and show it in a JSP page
-    *
-    * @return the name of the JSP page 
-    */
+     * Handles and retrieves ALL hosts and show it in a JSP page
+     * 
+     * @param model
+     * @param page An optional parameter to set the page of which to display
+     * @return the view
+     */
     @RequestMapping( value={"/", ""}, method = RequestMethod.GET )
     public String getIndex( Model model, @RequestParam(value="page", required=false) String page) {
         
@@ -83,10 +77,13 @@ public class HostController extends IpacWebController {
     }
     
     /**
-    * Handles and retrieves ALL hosts for SITE and show it in a JSP page
-    *
-    * @return the name of the JSP page
-    */
+     * Handles and retrieves ALL hosts for SITE and show it in a JSP page
+     * 
+     * @param siteId The ID of the site to display
+     * @param model
+     * @param page An optional parameter to set the page of which to display
+     * @return the view
+     */
     @RequestMapping( value={"/search"}, method = RequestMethod.GET, params = "siteId" )
     public String getSiteList( @RequestParam("siteId") Integer siteId, Model model, @RequestParam(value="page", required=false) String page) {
         
@@ -122,7 +119,8 @@ public class HostController extends IpacWebController {
     
     /**
     * Handles and retrieves ONE host and shows it in a JSP page
-    *
+    * 
+    * @param hostId The ID of the host to display
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/{hostId}"}, method = RequestMethod.GET )
@@ -171,8 +169,9 @@ public class HostController extends IpacWebController {
     
     
     /**
-    * Handles POST request to add host
-    *
+    * Handles POST request to persist host
+    * 
+    * @param host The model object to store
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/add"}, method = RequestMethod.POST )
@@ -204,7 +203,8 @@ public class HostController extends IpacWebController {
     
     /**
     * Handles and request for edit host JSP page
-    *
+    * 
+    * @param hostId The ID of the host to display
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/{hostId}/edit"}, method = RequestMethod.GET )
@@ -230,6 +230,8 @@ public class HostController extends IpacWebController {
     /**
     * Handles POST request to edit host
     *
+    * @param hostId The ID of the host to edit
+    * @param host The model object to store
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/{hostId}/edit"}, method = RequestMethod.POST )
@@ -278,7 +280,8 @@ public class HostController extends IpacWebController {
     
     /**
     * Handles request to show search page
-    *
+    * 
+    * @param hostId The ID of the host to delete
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/search"}, method = RequestMethod.GET )
@@ -293,11 +296,14 @@ public class HostController extends IpacWebController {
         
     }    
     
-    /**
-    * Handles request to do host search
-    *
-    * @return the name of the JSP page
-    */
+    /** 
+     * Handles request to do a search of hosts by host.name, takes a search string param to search for
+     * 
+     * @param searchStr The String to search
+     * @param page An optional parameter to set the page of which to display
+     * @param model
+     * @return the view
+     */
     @RequestMapping( value={"/search"}, method = RequestMethod.GET, params = "searchStr" )
     public String getSearch( @RequestParam("searchStr") String searchStr, @RequestParam(value="page", required=false) String page, Model model ) {
         
@@ -332,10 +338,12 @@ public class HostController extends IpacWebController {
     }
 
     /**
-    * Set the PagedHostView current page from var page
-    * @params String page, PagedHostView pageHostView
-    * @return void
-    */    
+     * Set the PagedHostView current page from var page
+     * 
+     * @param page the page number passed from query param
+     * @param pageHostView instance of the page view for this request
+     * @throws NumberFormatException if page is parsed as not a valid Integer
+     */
     private void setCurrentPage(String page, PagedHostView pageHostView) throws NumberFormatException {
         //Parse page int
         if (null == page){

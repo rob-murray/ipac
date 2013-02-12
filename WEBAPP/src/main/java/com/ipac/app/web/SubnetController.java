@@ -39,9 +39,10 @@ public class SubnetController extends IpacWebController {
     
     
     /**
-    * Handles and request to list subnets by vlan id
-    * @params vlan the ID of the vlanId to display
-    * @return json
+    * Handles and request to list subnets by VLAN id and renders as JSON
+    * 
+    * @param vlan the ID of the vlanId to display
+    * @return a List<Subnet> for the VLAN
     */
     @RequestMapping( method = RequestMethod.GET, headers="Accept=application/xml, application/json", params = "vlanId" )
     public @ResponseBody List<Subnet> getListForVlanId( @RequestParam("vlanId") Integer vlanId ) {
@@ -56,7 +57,8 @@ public class SubnetController extends IpacWebController {
     
     /**
     * Handles and request to show subnet JSP page - displays list of all IP addresses used on this subnet
-    * @params subnetId the ID of the subnet to display
+    * 
+    * @param subnetId the ID of the subnet to display
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/{subnetId}"}, method = RequestMethod.GET )
@@ -82,6 +84,7 @@ public class SubnetController extends IpacWebController {
     /**
     * Handles and request for add subnet JSP page
     *
+    * @param vlanId the ID of the VLAN to relate the Subnet to
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/add"}, method = RequestMethod.GET, params = "vlanId" )
@@ -103,9 +106,11 @@ public class SubnetController extends IpacWebController {
     
     
     /**
-    * Handles POST request to add subnet
-    *
-    * @return the name of the JSP page
+    * Handles POST request to persist subnet to database
+    * 
+    * @param vlanId the ID of the VLAN to relate the Subnet to
+    * @param subnet The model object to store
+    * @return redirect
     */
     @RequestMapping( value={"/add"}, method = RequestMethod.POST, params = "vlanId" )
     public String postAdd( @RequestParam("vlanId") Integer vlanId, @ModelAttribute("subnetAttribute") HibernateSubnet subnet, Model model ) {
