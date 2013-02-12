@@ -31,7 +31,7 @@ To install and use this application we need a few components:
 * Java application server
 * JDK to build the deployable artifact
 
-For more information about using this application see [Installation](#installation) to install or [Usage Intructions](/rob-murray/ipac/blob/master/Usage_Instructions.md)
+For more information about using this application see [Installation](#installation) to install or [Usage Intructions](ipac/tree/master/Usage_Instructions.md)
 
 
 If you wish to contribute and enhance this application the please see the [Development](#development) section.
