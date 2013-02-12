@@ -31,7 +31,7 @@ To install and use this application we need a few components:
 * Java application server
 * JDK to build the deployable artifact
 
-For more information about using this application see [Installation](#installation) to install or [Usage Intructions](ipac/tree/master/Usage_Instructions.md)
+For more information about using this application see [Installation](#installation) to install or [Usage Intructions](https://github.com/rob-murray/ipac/blob/master/Usage_Instructions.md)
 
 
 If you wish to contribute and enhance this application the please see the [Development](#development) section.
@@ -43,7 +43,7 @@ Contents
 
 Within this project there are the following sections:
 
-* [Usage Intructions](ipac/tree/master/Usage_Instructions.md) - A guide to using the application
+* [Usage Intructions](https://github.com/rob-murray/ipac/blob/master/Usage_Instructions.md) - A guide to using the application
 * /DB - Database schema creation scripts and initial data insert statements
 * /WEBAPP - Web application source directory
 
@@ -92,7 +92,7 @@ License
 
 This project is available for use under the GNU General Public License.
 
-For full details see [LICENSE](ipac/tree/master/LICENSE.md)
+For full details see [LICENSE](https://github.com/rob-murray/ipac/blob/master/LICENSE.md)
 
 IPAC is a IP addressing and Connectivity enterprise management 
 application designed for Network Operations or Datacentre management teams.
