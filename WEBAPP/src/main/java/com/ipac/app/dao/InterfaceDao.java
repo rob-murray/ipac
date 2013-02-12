@@ -8,6 +8,7 @@ import com.ipac.app.model.Interface;
 
 /**
  * Data Access Object for transactional database interactions
+ * 
  * @author RMurray
  */
 public interface InterfaceDao {
@@ -15,7 +16,7 @@ public interface InterfaceDao {
 	/**
 	    * Retrieves Interface by id
 	    * 
-	    * @param Integer interfaceId
+	    * @param interfaceId The ID of the Interface to retrieve
 	    * @return Interface
 	    */ 	
     public Interface getInterface( Integer interfaceId );
@@ -23,54 +24,54 @@ public interface InterfaceDao {
     /**
      * Retrieves all Interfaces attached to HOST as Interfaces
      * 
-     * @param Integer hostId
+     * @param hostId The ID of the host
      * @return List Interface
      */
     public List<Interface> getAll( Integer hostId );
     
     /**
-     * Retrieves all Host id reference by interface id
+     * Returns the Host ID to which an Interface belongs
      * 
-     * @param Integer interfaceId
+     * @param interfaceId The ID of the Interface to retrieve
      * @return Integer hostId
      */
     public Integer getHostIdFromInterface( Integer interfaceId );
     
     /**
-     * Get COUNT(*) query for host
+     * Returns a count of the number of interfaces attached to a host
      * 
-     * @param Integer hostId
-     * @return Integer COUNT
+     * @param hostId The ID of the host
+     * @return Integer The count
      */
     public int getInterfaceCount( Integer hostId );
     
     /**
-     * Adds an Interface attached to HOST @param
+     * Persist an Interface object to database
      * 
-     * @param hostId int, Interface interfaceObj
-     * @return -
+     * @param interfaceObj The object to store
      */
     public void add(Interface interfaceObj);
     
     /**
-     * Edit ONE interface
+     * Edit and persist an Interface object to database
      *
-     * @return -
+     * @param interfaceObj The object to store
      */
     public void edit(Interface interfaceObj);
     
     /**
-     * Delete ONE interface
+     * Delete ONE interface by ID
+     * 
      * @param id the id of the existing interface
-     * @return -
      */
     public void delete(Integer id);
     
     /**
      * Sets teamed interface data by teamed inteface id
      * 
-     * @param Integer teamedInterfaceId, Integer newTeamedId
-     * @return -
+     * @param teamedInterfaceId The ID of the teamed interface
+     * @param newTeamedId The ID of the new teamed interface
+     * 
      */
     public void updateTeamedInterfaces(Integer teamedInterfaceId, Integer newTeamedId);
     
@@ -78,7 +79,8 @@ public interface InterfaceDao {
      * Adds a new teamed interface by SQL statement
      * 
      * @param String constructedSql
-     * @return -
+     * @param teamedInterfaceId The ID of the teamed interface
+     * 
      */
     public void setTeamedInterfaces(String interfacesSqlStr, Integer teamedInterfaceId);
     

@@ -8,59 +8,63 @@ import com.ipac.app.model.InterfaceIp;
 
 /**
  * Data Access Object for transactional database interactions
+ * 
  * @author RMurray
  */
 public interface InterfaceIpDao {
     
 	/**
-	    * Retrieves ONE interfaceIp for a given interfaceIp ID
-	    * @param Integer interfaceIpId
-	    * @return interfaceIp
+	    * Retrieves an interfaceIp for a given interfaceIp ID
+	    * 
+	    * @param interfaceIpId The ID of the interfaceIp
+	    * @return interfaceIp object
 	    */
     public InterfaceIp getInterfaceIp( Integer interfaceIpId );
     
     /**
-     * Retrieves ONE interfaceIp for a given interface ID
-     * @param Integer interfaceId
-     * @return interfaceIp
+     * Retrieves an interfaceIp for a given Interface ID
+     * 
+     * @param interfaceId The ID of the Interface
+     * @return interfaceIp object
      */
     public InterfaceIp getInterfaceIpByIntId( Integer interfaceId );
     
     /**
-     * Retrieves ONE interfaceIp for a given IP address
-     * @param String IP address
-     * @return a interfaceIp
+     * Retrieves an interfaceIp for a given IP address
+     * 
+     * @param ipAddress The IP address of the interface
+     * @return interfaceIp object
      */
     public InterfaceIp getInterfaceIpForIpAddr( String ipAddress );
     
     /**
      * Retrieves LIST of next available IP addresses as Strings for subnet
-     * @param String subnet
-     * @param Integer limit
-     * @return List<String> interfaceIpList
+     * 
+     * @param subnet The subnet from which to return available IP addresses
+     * @param limit The maximum number of IP addresses to return
+     * @return List<String> of IP addresses
      */
     public List<String> getNextAvailableIpList(String subnet, Integer limit);
     
     /**
-     * Retrieves LIST of interfaceIp for a given IP address of subnet
-     * @param Integer Subnet IPAddr
-     * @return List<InterfaceIp> interfaceIp
+     * Retrieves LIST of interfaceIp objects for a given subnet
+     * 
+     * @param subnetIpAddr surely this is the ID TODO: check
+     * @return List<InterfaceIp> of IP address objects
      */
     public List<InterfaceIp> getAll( Integer subnetIpAddr );
     
     /**
-     * Adds an IP address attached to Interfaceid
+     * Persists an IP address attached to Interface
      * 
-     * @param interfaceId int, Interface interfaceObj
-     * @return -
+     * @param interfaceObj The Interface IP address object
      */
     public void add(InterfaceIp interfaceIpObj);
     
     /**
-     * Deletes an IP address attached
+     * Deletes an IP address by ID
      * 
-     * @param Integer interfaceIpId
-     * @return -
+     * @param interfaceIpId The ID of the Interface IP to delete
      */
     public void delete(Integer interfaceIpId);
     

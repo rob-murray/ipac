@@ -13,25 +13,24 @@ public interface SwitchportDao {
 	/**
 	  * Retrieves ONE switchport by ID
 	  *
-	  * @param Integer id 
-	  * @return Switchport
+	  * @param id The ID of the switchport
+	  * @return Switchport object
 	  */	
     public Switchport getSwitchport( Integer id );
     
     /**
-     * Retrieves ONE switchport by interface id
+     * Retrieves the switchport attached to an Interface by Interface ID
      *
-     * @param Integer interfaceId
-     * @return a Switchport
+     * @param interfaceId The ID of the interface to relate to the switchport
+     * @return a Switchport object
      */
     public Switchport getSwitchportByInterfaceId( Integer interfaceId );
     
     /**
-     * Adds a switchport attached to Interface ID
+     * Persist a switchport to database. Requires the ID of the interface to relate to
      * 
-     * @param HibernateSwitchport switchportObj
-     * @param Integer interfaceId
-     * @return -
+     * @param switchportObj The Switchport to store
+     * @param interfaceId The ID of the related interface TODO: this dao shouldnt be doing this
      */ 
     public void add(Switchport switchportObj, Integer interfaceId);
     

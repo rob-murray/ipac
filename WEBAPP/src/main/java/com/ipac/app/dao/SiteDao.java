@@ -8,6 +8,7 @@ import com.ipac.app.model.Site;
 
 /**
  * Data Access Object for transactional database interactions
+ * 
  * @author RMurray
  */
 public interface SiteDao {
@@ -20,10 +21,10 @@ public interface SiteDao {
     public List<Site> getAll();
     
     /**
-     * Retrieves all sites by ID
+     * Retrieves one site by ID
      * 
-     * @param Integer site ID
-     * @return Site
+     * @param id The ID of the site to return
+     * @return Site object
      */
     public Site getSite( Integer id );
     

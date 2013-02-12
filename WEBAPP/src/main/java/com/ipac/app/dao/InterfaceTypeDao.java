@@ -8,6 +8,7 @@ import com.ipac.app.model.InterfaceType;
 
 /**
  * Data Access Object for transactional database interactions
+ * 
  * @author RMurray
  */
 public interface InterfaceTypeDao {
@@ -20,9 +21,9 @@ public interface InterfaceTypeDao {
     public List<InterfaceType> getAll();
     
     /**
-     * Retrieves all Interfaces Types
+     * Retrieves all Interfaces Types but with a filter
      * 
-     * @param Boolean Whether to return only types the can be selected
+     * @param selectableFilter Whether to return only types the can be selected
      * @return List<InterfaceType>
      */
     public List<InterfaceType> getAll(Boolean selectableFilter);
@@ -30,8 +31,8 @@ public interface InterfaceTypeDao {
     /**
      * Retrieves a specified InterfaceType by ID
      * 
-     * @param Integer typeId
-     * @return InterfaceType
+     * @param typeId The ID of the Interface Type
+     * @return InterfaceType The InterfaceType object
      */
     public InterfaceType getInterfaceType( Integer typeId );
     
