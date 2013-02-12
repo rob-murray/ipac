@@ -1,6 +1,27 @@
-*.class
+
+#Misc
+.DS_Store
+*.log
+*.log.*
+.idea
+.classpath
+.checkstyle
+.pmd
+
+*.iml
+*.ipr
+*.iws
+*.versionsBackup
+
+#IDE
+.project
+.settings
+
 
 # Package Files #
+target
 *.jar
 *.war
 *.ear
+
+*.class
