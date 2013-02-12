@@ -41,7 +41,7 @@
 					<systemProperties>
 						<systemProperty>
 							<name>config.dir</name>
-							<value>${basedir}/environments/rmurray</value>
+							<value>${basedir}/environments/example</value>
 						</systemProperty>
 					</systemProperties>
 				</configuration>
