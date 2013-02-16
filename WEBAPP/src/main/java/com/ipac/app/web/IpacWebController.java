@@ -15,7 +15,7 @@ import com.ipac.app.service.UserService;
  * @author rmurray
  *
  */
-public class IpacWebController {
+abstract class IpacWebController {
 	
 	protected static Logger logger = Logger.getLogger("controller");
 	

@@ -3,7 +3,6 @@ package com.ipac.app.web;
 
 import java.util.List;
 import javax.annotation.Resource;
-import org.apache.log4j.Logger;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,12 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ipac.app.model.HostInterfaceIp;
-import com.ipac.app.model.InterfaceIp;
 import com.ipac.app.model.Subnet;
 import com.ipac.app.model.hibernate.HibernateSubnet;
 import com.ipac.app.service.HostService;
 import com.ipac.app.service.SubnetService;
-import com.ipac.app.service.UserService;
+
 
 
 /**
