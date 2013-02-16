@@ -89,7 +89,7 @@
             </thead>
             <tbody>
                     <c:url var="addSubnetUrl" value="/subnets/add?vlanId=${vlan.id}" />
-                    <c:url var="siteUrl" value="/vlans?siteId=${vlan.site.id}" />
+                    <c:url var="siteUrl" value="/vlans/search?siteId=${vlan.site.id}" />
                     <tr>
                         <td><c:out value="${vlan.id}" /></td>
                         <td><c:out value="${vlan.name}" /></td>
