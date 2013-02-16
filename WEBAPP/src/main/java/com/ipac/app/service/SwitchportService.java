@@ -1,15 +1,6 @@
 
 package com.ipac.app.service;
 
-import javax.annotation.Resource;
- 
-import org.apache.log4j.Logger;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.ipac.app.dao.SwitchportDao;
 import com.ipac.app.dto.SwitchportDto;
 import com.ipac.app.model.Switchport;
 
@@ -18,91 +9,39 @@ import com.ipac.app.model.Switchport;
  * Service for processing Switchports
  * @author rmurray
  */
-@Service("switchportService")
-@Transactional
-public class SwitchportService {
-    
-    protected static Logger logger = Logger.getLogger("service");
-    
-    @Autowired
-    private SwitchportDao switchportDao;    
-    
-    @Resource(name="switchService")
-    private SwitchService switchService;    
+public interface SwitchportService {
     
     
     /**
     * Retrieves ONE switchport by id
     *
+    * @param id The ID of the Switchport
     * @return a Switchport
     */    
-    @Transactional(readOnly = true)
-    public Switchport getSwitchport( Integer id ) {
-        
-        return switchportDao.getSwitchport(id);
-        
-    }
+    public Switchport getSwitchport( Integer id );
     
     /**
     * Retrieves ONE switchport by interface id
     *
+    * @param interfaceId The ID of the Interface to return the switchport connected to
     * @return a Switchport
-    */    
-    @Transactional(readOnly = true)
-    public Switchport getSwitchportByInterfaceId( Integer interfaceId ) {
-        
-        return switchportDao.getSwitchportByInterfaceId(interfaceId);
-
-    }    
+    */
+    public Switchport getSwitchportByInterfaceId( Integer interfaceId );
       
     
     /**
     * Retrieves ONE switchportDto by interface id
-    *
+    * 
+    * @param interfaceId The ID of the Interface to return the switchport connected to
     * @return a SwitchportDto
     */    
-    @Transactional(readOnly = true)
-    public SwitchportDto getSwitchportDtoByInterfaceId( Integer interfaceId ) {
-
-        logger.debug("Retrieving switchport dto for interface id: "+interfaceId);
-        
-        //Get switchport object
-        Switchport sw = getSwitchportByInterfaceId( interfaceId );
-        
-        //create new dto
-        SwitchportDto swDto = new SwitchportDto();
-        
-        //If there IS a switchport attached to this interface then assign data to dto
-        if(sw != null){
-            
-            swDto.setId( sw.getId() );
-            swDto.setChassis( sw.getChassis() );
-            swDto.setBlade( sw.getBlade() );
-            swDto.setPort( sw.getPort() );
-
-            swDto.setSwitchObj( switchService.getSwitch( sw.getSwitchId() ) );            
-            
-        }else{
-            //else return null
-            swDto = null;
-        }
-        
-        return swDto;
-        
-    }
+    public SwitchportDto getSwitchportDtoByInterfaceId( Integer interfaceId );
     
     /**
-    * Adds a switchport attached to Interfaceid @param
-    * 
-    * @param HibernateSwitchport switchportObj, Integer interfaceId
-    * @return -
-    */ 
-    public void add(Switchport switchportObj, Integer interfaceId) {
-        
-        //TODO: check interface is physical
-        
-        switchportDao.add(switchportObj, interfaceId);
-    }     
-    
-
+     * Adds a switchport attached to Interfaceid
+     * 
+     * @param switchportObj The Switchport object to store
+     * @param interfaceId The ID of the interface to connect it to
+     */
+    public void add(Switchport switchportObj, Integer interfaceId);
 }

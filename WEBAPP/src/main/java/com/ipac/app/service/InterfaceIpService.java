@@ -2,120 +2,73 @@
 package com.ipac.app.service;
 
 import java.util.List;
- 
-import org.apache.log4j.Logger;
 
-import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.ipac.app.dao.InterfaceIpDao;
 import com.ipac.app.model.InterfaceIp;
 
 
 
 /**
  * Service for processing InterfaceIps
+ * 
  * @author RMurray
  */
-@Service("interfaceIpService")
-@Transactional
-public class InterfaceIpService {
+public interface InterfaceIpService {
     
-    
-    protected static Logger logger = Logger.getLogger("service");
-  
-    @Autowired
-    private InterfaceIpDao interfaceIpDao;
-    
-    /**
-    * Retrieves ONE interfaceIp for a given interface ID
-    *
-    * @return a interfaceIp
-    */    
-    @Transactional(readOnly = true)
-    public InterfaceIp getInterfaceIp( Integer interfaceIpId ) {    
-    
-        return interfaceIpDao.getInterfaceIp(interfaceIpId);
-
-    }    
+	/**
+	 * Retrieve a InterfaceIp object by its ID
+	 * 
+	 * @param interfaceIpId The ID of the InterfaceIp to return
+	 * @return The InterfaceIp object
+	 */
+    public InterfaceIp getInterfaceIp( Integer interfaceIpId );
     
     /**
-    * Retrieves ONE interfaceIp for a given interface ID
-    *
-    * @return a interfaceIp
-    */    
-    @Transactional(readOnly = true)
-    public InterfaceIp getIntIpForId( Integer interfaceId ) {    
-    
-        return interfaceIpDao.getInterfaceIpByIntId(interfaceId);    
-
-    }
+     * Retrieve a InterfaceIp object by the Interface Id it is attached to
+     * 
+     * @param interfaceId The ID of the Interface the InterfaceIp is attached to
+     * @return The InterfaceIp object
+     */
+    public InterfaceIp getIntIpForId( Integer interfaceId );
     
     /**
-    * Adds an IP address attached to Interfaceid
+     * Persists a new InterfaceIp by attaching it to an Interface by ID
+     * 
+     * @param interfaceIpObj The prepared InterfaceIp
+     * @param interfaceId The ID of the Interface to attach it to
+     */
+    public void add(InterfaceIp interfaceIpObj, Integer interfaceId);
+    
+    /**
+    * Delete interfaceIp by ID
     * 
-    * @param interfaceId int, Interface interfaceObj
-    * @return -
-    */ 
-    public void add(InterfaceIp interfaceIpObj, Integer interfaceId) {
-        logger.debug("Adding new ip address to interface id: "+interfaceId);
-        
-        //TODO: check interface is not teamed
-        
-        //add interface ID to obj
-        interfaceIpObj.setInterfaceId(interfaceId);
-   
-        interfaceIpDao.add(interfaceIpObj);
-        
-    }  
-    
-    /**
-    * Delete ONE interfaceIp
-    * @param id the id of the existing interfaceip
-    * @return -
+    * @param id the id of the existing InterfaceIp
     */
-    public void deleteInterfaceIp(Integer id) {
-        
-        interfaceIpDao.delete(id);
-        
-    }
+    public void deleteInterfaceIp(Integer id);
     
     
     /**
-    * Retrieves ONE interfaceIp for a given IP address
+    * Retrieves interfaceIp for a given IP address
     *
-    * @return a interfaceIp
+    * @param ipAddress The IP Address as String
+    * @return The InterfaceIp object using this IP Address, null if is empty
     */    
-    @Transactional(readOnly = true)
-    public InterfaceIp getInterfaceIpForIpAddr( String ipAddress ) {
-        
-        return interfaceIpDao.getInterfaceIpForIpAddr(ipAddress);
-        
-    }
+    public InterfaceIp getInterfaceIpForIpAddr( String ipAddress );
     
     /**
-    * Retrieves LIST of interfaceIp for a given IP address of subnet
+    * Retrieves LIST of InterfaceIp objects for a subnet ID
     *
-    * @return List<InterfaceIp> interfaceIp
+    * @param subnetIpAddr The ID of the subnet
+    * @return All the InterfaceIp objects on that subnet
     */
-    @Transactional(readOnly = true)
-    public List<InterfaceIp> getInterfaceIpListBySubnet( Integer subnetIpAddr ) {
-        
-        return interfaceIpDao.getAll(subnetIpAddr);
-        
-    }
+    public List<InterfaceIp> getInterfaceIpListBySubnet( Integer subnetIpAddr );
     
     /**
-    * Retrieves LIST of next available IP addresses for subnet
-    * @params String subnet, Integer limit
-    * @return List<String> interfaceIpList
-    */
-    @Transactional(readOnly = true)
-    public List<String> getNextAvailableIpForSubnet(String subnet, Integer limit){
-        
-        return interfaceIpDao.getNextAvailableIpList(subnet, limit);
-        
-    }
+     * Retrieves LIST of next available IP addresses for subnet
+     * 
+     * @param subnet The Subnet as string
+     * @param limit The maximum number of available IP addresses to return
+     * @return List of IP Addresses as Strings
+     */
+    public List<String> getNextAvailableIpForSubnet(String subnet, Integer limit);
     
 }

@@ -3,13 +3,6 @@ package com.ipac.app.service;
 
 import java.util.List;
  
-import org.apache.log4j.Logger;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.ipac.app.dao.InterfaceTypeDao;
 import com.ipac.app.model.InterfaceType;
 
 
@@ -17,37 +10,23 @@ import com.ipac.app.model.InterfaceType;
  * Service for processing Interfaces
  * @author rmurray
  */
-@Service("interfaceTypeService")
-@Transactional
-public class InterfaceTypeService {
-    
-    protected static Logger logger = Logger.getLogger("service");
-  
-    @Autowired
-    private InterfaceTypeDao interfaceTypeDao;    
+public interface InterfaceTypeService {   
     
     /**
     * Retrieves ALL interfacetypes
-    * @params selectable : boolean = true
-    * @return a list of interfacetypes
+    * 
+    * @param onlySelectableInterfaceTypes Boolean option for returning InterfaceTypes that are selectable only. If you want
+    * only selectable InterfaceTypes then pass True
+    * @return a list of InterfaceTypes
     */
-    @Transactional(readOnly = true)
-    public List<InterfaceType> getAll(Boolean selectableFilter) {
-        
-        return interfaceTypeDao.getAll(selectableFilter);
-        
-    } 
+    public List<InterfaceType> getAll(Boolean onlySelectableInterfaceTypes);
     
     /**
-    * Retrieves ONE interfacetype
+    * Retrieves ONE InterfaceType by ID
     *
-    * @return interfacetype
+    * @param typeId The ID of the InterfaceType to return
+    * @return The InterfaceType for the ID
     */  
-    @Transactional(readOnly = true)
-    public InterfaceType getIntTypeForId( Integer typeId ){
-        
-        return interfaceTypeDao.getInterfaceType(typeId);
-        
-    }
+    public InterfaceType getIntTypeForId( Integer typeId );
     
 }
