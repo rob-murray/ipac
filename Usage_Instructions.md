@@ -18,10 +18,10 @@ Here is how the objects in the IPAC are related to each other in the database an
 
 All entities have the following attributes
 
-1. created by
-2. updated by
-3. date created
-4. date updated
+1. created by - The username that created the object
+2. updated by - The username that updated the object (if any)
+3. date created - The date when the object was created
+4. date updated - The date when the object was updated (if any)
 
 ##### Host
 
@@ -61,7 +61,10 @@ A **Interface** is a physical or virtual interface on a host. A server could hav
 
 ##### InterfaceIp
 
-A **InterfaceIp** is an IP Address and is assigned to an Interface whilst being on a subnet.
+A **InterfaceIp** is an IP Address 3. created by
+4. updated by
+5. date created
+6. date updatedand is assigned to an Interface whilst being on a subnet.
 
 ###### Attributes
 
@@ -130,7 +133,7 @@ A **Switch** is a networking
 * **Switchport**
 
 *@belongs_to*:
-**Site*
+* **Site*
 
 ##### Switchport
 
