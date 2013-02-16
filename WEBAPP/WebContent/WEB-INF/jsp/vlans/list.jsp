@@ -92,7 +92,7 @@
                 <c:forEach items="${vlans}" var="vlan">
                     <c:url var="showUrl" value="/vlans/${vlan.id}" />
                     <c:url var="addSubnetUrl" value="/subnets/add?vlanId=${vlan.id}" />
-                    <c:url var="siteUrl" value="/vlans?siteId=${vlan.site.id}" />
+                    <c:url var="siteUrl" value="/vlans/search?siteId=${vlan.site.id}" />
                     <tr>
                         <td><c:out value="${vlan.id}" /></td>
                         <td><a href="${showUrl}"><c:out value="${vlan.name}" /></a></td>
