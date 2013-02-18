@@ -23,7 +23,6 @@ import org.hibernate.annotations.Type;
 
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
-import org.springframework.stereotype.Component;
 
 import com.ipac.app.model.Host;
 import com.ipac.app.model.Site;
