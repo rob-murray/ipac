@@ -135,7 +135,7 @@ public class SubnetController extends IpacWebController {
     * @param subnetId The ID of the subnet to get the IP address
     * @return List<String> of IP addresses as Strings
     */
-    @RequestMapping( value={"/nextAvailable.json"}, method = RequestMethod.GET, 
+    @RequestMapping( value={"/nextAvailableIp.json"}, method = RequestMethod.GET, 
     		headers="Accept=application/xml, application/json", params = "subnetId" )
     public @ResponseBody List<String> getNext( @RequestParam("subnetId") Integer subnetId) {
         
