@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.ipac.tests.model.validation;
 
 import java.util.ArrayList;
@@ -63,8 +60,7 @@ public class InterfaceValidationTest {
         intfList.add(iObjA);
         intfList.add(iObjB);
         
-        InterfaceValidation instance = new InterfaceValidation();
-        assertTrue(instance.testHasMatchingInTypes( intfList ));
+        assertTrue(InterfaceValidation.testHasMatchingInTypes( intfList ));
         
         Interface iObjC = new HibernateInterface();
         iObjC.setId(1);
@@ -79,7 +75,7 @@ public class InterfaceValidationTest {
         intfListB.add(iObjC);
         intfListB.add(iObjD);
         
-        assertFalse(instance.testHasMatchingInTypes( intfListB ));        
+        assertFalse(InterfaceValidation.testHasMatchingInTypes( intfListB ));        
     }
     
 

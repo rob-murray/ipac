@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.ipac.app.model.Interface;
-import com.ipac.app.model.InterfaceType;
 
 /**
  * Validates obj Interfaces

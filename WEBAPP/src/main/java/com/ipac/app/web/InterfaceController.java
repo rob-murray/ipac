@@ -234,9 +234,6 @@ public class InterfaceController extends IpacWebController {
         model.addAttribute("username", userService.getCurrentUsername());
         model.addAttribute("ipacVersion", this.getCurrentIPACVersion());
         
-        //Validation obj to check interface list
-        InterfaceValidation interfaceValidator = new InterfaceValidation();
-        
         //Get teamed interface ID
         Integer teamedInterfaceIdInt = getTeamedInterfaceId();
         
@@ -251,7 +248,7 @@ public class InterfaceController extends IpacWebController {
         List<Interface> interfaceList = interfaceService.getInterfacesForHost(hostId);
         
         // Check there are more than one interface for this host
-        if( interfaceList.size() > 1 && interfaceValidator.testHasMatchingInTypes( interfaceList ) == true ){
+        if( interfaceList.size() > 1 && InterfaceValidation.testHasMatchingInTypes( interfaceList ) == true ){
             
             Map<Integer,String> interfaceMap = new HashMap<Integer,String>();
 

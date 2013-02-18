@@ -3,7 +3,6 @@ package com.ipac.app.web;
 
 import java.util.List;
 import javax.annotation.Resource;
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,7 +21,6 @@ import com.ipac.app.model.validation.IpValidator;
 import com.ipac.app.service.InterfaceIpService;
 import com.ipac.app.service.InterfaceService;
 import com.ipac.app.service.SubnetService;
-import com.ipac.app.service.UserService;
 import com.ipac.app.service.VlanService;
 
 
@@ -93,11 +91,8 @@ public class IpAddressController extends IpacWebController {
         //Get subnet obj
         Subnet subnet = subnetService.getSubnetById( interfaceIp.getSubnetId() );
         
-        //Init new IpValidator
-        IpValidator ipValidatorObj = new IpValidator();
-        
         //Test if the IP passed is in the subnet selected
-        Boolean validIpInSubnet = ipValidatorObj.isIpInSubnet(interfaceIp.getIpAddress(), subnet.getIpAddress() );
+        Boolean validIpInSubnet = IpValidator.isIpInSubnet(interfaceIp.getIpAddress(), subnet.getIpAddress() );
         
         InterfaceIp testInterfaceIpObj = interfaceIpService.getInterfaceIpForIpAddr(interfaceIp.getIpAddress());
         

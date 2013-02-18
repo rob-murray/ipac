@@ -44,11 +44,29 @@ public class IpValidatorTest {
      */
     @Test
     public void testIsIpInSubnet() {
-        System.out.println("isIpInSubnet");
-        String ip = "1.1.1.1";
-        String subnet = "1.1.1.1/24";
-
-        boolean result = IpValidator.isIpInSubnet(ip, subnet);
-        assertTrue(result);
+        
+        final String subnet1 = "1.1.1.0/24";
+        final String rangeStartIp = "1.1.1.0";
+        final String rangeEndIp = "1.1.1.255";
+        final String wildIp = "192.168.0.1";
+        
+        /**
+         * Should validate last octet 1-254
+         */
+        for(int x = 1; x < 255; x++)
+        {
+        	
+        	String ip = String.format("1.1.1.%d", x);
+        	
+        	assertTrue(IpValidator.isIpInSubnet(ip, subnet1));
+        }
+        
+        assertTrue(!IpValidator.isIpInSubnet(rangeStartIp, subnet1));
+        
+        assertTrue(!IpValidator.isIpInSubnet(rangeEndIp, subnet1));
+        
+        assertTrue(!IpValidator.isIpInSubnet(wildIp, subnet1));
+        
+        
     }
 }
