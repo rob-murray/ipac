@@ -13,6 +13,8 @@ import com.ipac.app.model.InterfaceIp;
  * @author RMurray
  */
 public interface InterfaceIpService {
+	
+	public static enum Error {INVALID_IP, IP_NOT_IN_SUBNET};
     
 	/**
 	 * Retrieve a InterfaceIp object by its ID
@@ -35,8 +37,9 @@ public interface InterfaceIpService {
      * 
      * @param interfaceIpObj The prepared InterfaceIp
      * @param interfaceId The ID of the Interface to attach it to
+     * @throws IllegalArgumentException
      */
-    public void add(InterfaceIp interfaceIpObj, Integer interfaceId);
+    public void add(InterfaceIp interfaceIpObj, Integer interfaceId) throws IllegalArgumentException;
     
     /**
     * Delete interfaceIp by ID

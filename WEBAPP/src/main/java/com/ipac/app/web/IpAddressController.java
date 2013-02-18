@@ -87,64 +87,58 @@ public class IpAddressController extends IpacWebController {
     		@ModelAttribute("interfaceIpAttribute") HibernateInterfaceIp interfaceIp, Model model ) {
         
         logger.debug("Received post request to add interface ip");
+
         
-        //Get subnet obj
-        Subnet subnet = subnetService.getSubnetById( interfaceIp.getSubnetId() );
-        
-        //Test if the IP passed is in the subnet selected
-        Boolean validIpInSubnet = IpValidator.isIpInSubnet(interfaceIp.getIpAddress(), subnet.getIpAddress() );
-        
-        InterfaceIp testInterfaceIpObj = interfaceIpService.getInterfaceIpForIpAddr(interfaceIp.getIpAddress());
-        
-        //If IP is not in subnet return to form
-        if(validIpInSubnet == false){
+        try{
+        	
+        	interfaceIp.setCreatedBy( userService.getCurrentUsername() );
+        	
+        	// Delegate to service
+            interfaceIpService.add(interfaceIp, interfaceId); 
             
-            logger.debug("Failed to match IP address "+ interfaceIp.getIpAddress() +" to subnet "+subnet.getIpAddress());
-            
-            //Pass model to method to set common attributes
-            model = setBasicViewModelAttrs(model, siteId);  
-            
-            model.addAttribute("interfaceId", interfaceId);
-            
-            //Attach flash msg
-            model.addAttribute("flashScope.message", "Error: IP Address not in selected subnet.");
-            //model.addAttribute("flashMsg", "IP Address not in selected subnet");  
-            
-            // Redirect to form
-            return "ip_address/addBasic";
-            
-        }else if(testInterfaceIpObj != null){
-            
-            logger.debug("IP address "+ interfaceIp.getIpAddress() + " already exists in database.");
-            
-            //Pass model to method to set common attributes
-            model = setBasicViewModelAttrs(model, siteId);
-            
-            model.addAttribute("interfaceId", interfaceId);
-            
-            //Attach flash msg  
-            model.addAttribute("flashScope.message", "Error: IP Address already exists in database.");
-            
-            // Redirect to form
-            return "ip_address/addBasic";
-            
-        }else{   
-            
-            //all ok
-            
-            //Add created by to obj
-            interfaceIp.setCreatedBy( userService.getCurrentUsername() );
-            
-            // Delegate to service
-            interfaceIpService.add(interfaceIp, interfaceId);
-            
-            Integer hostId = interfaceService.getHostIdFromInterface(interfaceId);
-            
-            model.addAttribute("flashScope.message", "IP address added.");
-            
-            return "redirect:/hosts/"+hostId;
-            
+        	
+        }catch (IllegalArgumentException e){
+        	
+        	if(e.getMessage() == InterfaceIpService.Error.INVALID_IP.toString()){
+        		
+                //Pass model to method to set common attributes
+                model = setBasicViewModelAttrs(model, siteId);
+                
+                model.addAttribute("interfaceId", interfaceId);
+                
+                //Attach flash msg  
+                model.addAttribute("flashScope.message", "Error: IP Address already exists in database.");
+                
+                // Redirect to form
+                return "ip_address/addBasic";        		
+        		
+        	}else if(e.getMessage() == InterfaceIpService.Error.IP_NOT_IN_SUBNET.toString()){
+        		
+                //Pass model to method to set common attributes
+                model = setBasicViewModelAttrs(model, siteId);
+                
+                model.addAttribute("username", userService.getCurrentUsername());
+                model.addAttribute("ipacVersion", this.getCurrentIPACVersion());                
+                
+                model.addAttribute("interfaceId", interfaceId);
+                
+                //Attach flash msg
+                model.addAttribute("flashScope.message", "Error: IP Address not in selected subnet.");
+                //model.addAttribute("flashMsg", "IP Address not in selected subnet");  
+                
+                // Redirect to form
+                return "ip_address/addBasic";        		
+        		
+        	}
+        	
         }
+        
+        
+        Integer hostId = interfaceService.getHostIdFromInterface(interfaceId);
+        
+        model.addAttribute("flashScope.message", "IP address added.");
+        
+        return "redirect:/hosts/"+hostId;
 
     }  
     
