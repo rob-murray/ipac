@@ -137,7 +137,7 @@ public class HibernateInterfaceIpDao implements InterfaceIpDao {
         Session session = sessionFactory.getCurrentSession();
    
         // Retrieve existing obj
-        InterfaceIp interfaceIp = (InterfaceIp) session.get(InterfaceIp.class, interfaceIpId);
+        InterfaceIp interfaceIp = (InterfaceIp) session.get(HibernateInterfaceIp.class, interfaceIpId);
    
         // Delete
         session.delete(interfaceIp);
