@@ -11,13 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.ipac.app.model.InterfaceIp;
-import com.ipac.app.model.Subnet;
 import com.ipac.app.model.Vlan;
 import com.ipac.app.model.hibernate.HibernateInterfaceIp;
-import com.ipac.app.model.validation.IpValidator;
 import com.ipac.app.service.InterfaceIpService;
 import com.ipac.app.service.InterfaceService;
 import com.ipac.app.service.SubnetService;
@@ -36,13 +32,10 @@ public class IpAddressController extends IpacWebController {
     private InterfaceIpService interfaceIpService;
     
     @Resource(name="interfaceService")
-    private InterfaceService interfaceService;    
-    
-    @Resource(name="subnetService")
-    private SubnetService subnetService;   
+    private InterfaceService interfaceService; 
     
     @Resource(name="vlanService")
-    private VlanService vlanService; 
+    private VlanService vlanService;  
     
     
     /**
@@ -167,27 +160,6 @@ public class IpAddressController extends IpacWebController {
         return "redirect:/hosts/"+hostId;
     }    
     
-    
-    /**
-    * Handles GET request for next available IP address for subnet passed and renders as JSON
-    *
-    * @param subnetId The ID of the subnet to get the IP address
-    * @return List<String> of IP addresses as Strings
-    */
-    @RequestMapping( value={"/nextAvailable.json"}, method = RequestMethod.GET, 
-    		headers="Accept=application/xml, application/json", params = "subnetId" )
-    public @ResponseBody List<String> getNext( @RequestParam("subnetId") Integer subnetId) {
-        
-        logger.debug("Received GET request for next available IP address for subnet id: "+subnetId);
-        
-        //Get the Subnet as cidr by id
-        Subnet subnet = subnetService.getSubnetById(subnetId);
-        
-        List<String> nextIpList = interfaceIpService.getNextAvailableIpForSubnet(subnet.getIpAddress(), 1);
-        
-        return nextIpList;
-
-    }    
 
     /**
     * Method to perform repeated task of added attributes to model for addbasic form view

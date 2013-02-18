@@ -23,7 +23,7 @@ ipac = {
         var subnetId = ipac.getSubnetFromSelect();
         
         if(subnetId){
-            var url = "/ipaddress/nextAvailable.json?subnetId="+subnetId;
+            var url = "/subnets/nextAvailable.json?subnetId="+subnetId;
         
             //Add random number to URL to stop caching
             var noCache = "nocache="+Math.random()*1234567;

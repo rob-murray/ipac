@@ -4,6 +4,7 @@ package com.ipac.app.service;
 import java.util.List;
 
 import com.ipac.app.model.InterfaceIp;
+import com.ipac.app.model.Subnet;
 
 
 
@@ -65,13 +66,5 @@ public interface InterfaceIpService {
     */
     public List<InterfaceIp> getInterfaceIpListBySubnet( Integer subnetIpAddr );
     
-    /**
-     * Retrieves LIST of next available IP addresses for subnet
-     * 
-     * @param subnet The Subnet as string
-     * @param limit The maximum number of available IP addresses to return
-     * @return List of IP Addresses as Strings
-     */
-    public List<String> getNextAvailableIpForSubnet(String subnet, Integer limit);
     
 }

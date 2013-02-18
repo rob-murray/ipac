@@ -1,6 +1,7 @@
 
 package com.ipac.app.dao.hibernate;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 
@@ -84,6 +85,25 @@ public class HibernateSubnetDao implements SubnetDao {
    
         // Persists to db
         session.save(subnet);
-	}    
+	}
+	
+    public List<String> getNextAvailableIpList(String subnet, Integer limit){
+        
+        logger.debug("Retrieving list of next available IP addresses for subnet IP: "+subnet);
+        
+        // Retrieve session from Hibernate
+        Session session = sessionFactory.getCurrentSession();        
+        
+        List<String> interfaceIpList = new ArrayList<String>();
+        
+        //Call DB function nextips(net)
+        String sql = "SELECT CAST(host(ipac.nextips_for('"+ subnet +"')) AS varchar) LIMIT "+limit;
+        
+        Query query = session.createSQLQuery(sql);
+        
+        interfaceIpList = query.list();
+        return interfaceIpList;
+        
+    }	
     
 }

@@ -36,15 +36,7 @@ public interface InterfaceIpDao {
      * @return interfaceIp object
      */
     public InterfaceIp getInterfaceIpForIpAddr( String ipAddress );
-    
-    /**
-     * Retrieves LIST of next available IP addresses as Strings for subnet
-     * 
-     * @param subnet The subnet from which to return available IP addresses
-     * @param limit The maximum number of IP addresses to return
-     * @return List<String> of IP addresses
-     */
-    public List<String> getNextAvailableIpList(String subnet, Integer limit);
+
     
     /**
      * Retrieves LIST of interfaceIp objects for a given subnet

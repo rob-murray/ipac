@@ -27,11 +27,7 @@ public class SubnetServiceImpl implements SubnetService {
     @Resource(name="vlanService")
     private VlanService vlanService;
     
-    /**
-    * Retrieves ONE subnets for one subnet id
-    * @param id
-    * @return a Subnet
-    */    
+   
     @Transactional(readOnly = true)
     public Subnet getSubnetById( Integer id ){
         
@@ -39,11 +35,7 @@ public class SubnetServiceImpl implements SubnetService {
         
     }
     
-    /**
-    * Retrieves ALL subnets for VLAN Id
-    * @param vlanId
-    * @return a Subnet
-    */    
+ 
     @Transactional(readOnly = true)
     public List<Subnet> getSubnetsForVlanId( Integer vlanId ) {
         
@@ -52,11 +44,7 @@ public class SubnetServiceImpl implements SubnetService {
     }    
     
     
-    /**
-    * Retrieves ALL subnets
-    *
-    * @return a list of Subnets
-    */
+
     @Transactional(readOnly = true)
     public List<Subnet> getAll() {
         
@@ -64,11 +52,7 @@ public class SubnetServiceImpl implements SubnetService {
         
     }    
     
-    /**
-    * Add ONE subnet
-    *
-    * @return -
-    */
+
     public void add(Subnet subnet, Integer vlanId) {
         
         logger.debug("Adding new subnet");
@@ -80,4 +64,13 @@ public class SubnetServiceImpl implements SubnetService {
         subnetDao.add(subnet);
         
     }
+    
+    @Transactional(readOnly = true)
+    public List<String> getNextAvailableIpForSubnet(Integer subnetId, Integer limit){
+        
+    	Subnet subnet = getSubnetById(subnetId);
+    	
+        return subnetDao.getNextAvailableIpList(subnet.getIpAddress(), limit);
+        
+    }    
 }

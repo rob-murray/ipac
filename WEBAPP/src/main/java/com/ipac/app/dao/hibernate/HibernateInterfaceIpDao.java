@@ -88,25 +88,6 @@ public class HibernateInterfaceIpDao implements InterfaceIpDao {
         
     }
     
-        
-    public List<String> getNextAvailableIpList(String subnet, Integer limit){
-        
-        logger.debug("Retrieving list of next available IP addresses for subnet IP: "+subnet);
-        
-        // Retrieve session from Hibernate
-        Session session = sessionFactory.getCurrentSession();        
-        
-        List<String> interfaceIpList = new ArrayList<String>();
-        
-        //Call DB function nextips(net)
-        String sql = "SELECT CAST(host(ipac.nextips_for('"+ subnet +"')) AS varchar) LIMIT "+limit;
-        
-        Query query = session.createSQLQuery(sql);
-        
-        interfaceIpList = query.list();
-        return interfaceIpList;
-        
-    }    
     
         
     public List<InterfaceIp> getAll( Integer subnetIpAddr ) {

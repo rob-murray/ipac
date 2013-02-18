@@ -98,11 +98,5 @@ public class InterfaceIpServiceImpl implements InterfaceIpService{
         
     }
     
-    @Transactional(readOnly = true)
-    public List<String> getNextAvailableIpForSubnet(String subnet, Integer limit){
-        
-        return interfaceIpDao.getNextAvailableIpList(subnet, limit);
-        
-    }
 
 }

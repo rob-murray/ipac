@@ -44,4 +44,14 @@ public interface SubnetService {
      */
     public void add(Subnet subnet, Integer vlanId);
     
+    
+    /**
+     * Retrieves LIST of next available IP addresses for subnet
+     * 
+     * @param subnetId The ID of the subnet
+     * @param limit The maximum number of available IP addresses to return
+     * @return List of IP Addresses as Strings
+     */
+    public List<String> getNextAvailableIpForSubnet(Integer subnetId, Integer limit);    
+    
 }

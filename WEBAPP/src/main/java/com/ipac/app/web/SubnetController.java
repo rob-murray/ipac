@@ -127,6 +127,24 @@ public class SubnetController extends IpacWebController {
         return "redirect:/vlans/"+vlanId;
         
         
-    }      
+    }
+    
+    /**
+    * Handles GET request for next available IP address for subnet passed and renders as JSON
+    *
+    * @param subnetId The ID of the subnet to get the IP address
+    * @return List<String> of IP addresses as Strings
+    */
+    @RequestMapping( value={"/nextAvailable.json"}, method = RequestMethod.GET, 
+    		headers="Accept=application/xml, application/json", params = "subnetId" )
+    public @ResponseBody List<String> getNext( @RequestParam("subnetId") Integer subnetId) {
+        
+        logger.debug("Received GET request for next available IP address for subnet id: "+subnetId);
+        
+        List<String> nextIpList = subnetService.getNextAvailableIpForSubnet(subnetId, 1);
+        
+        return nextIpList;
+
+    }    
     
 }
