@@ -72,6 +72,20 @@ More information to follow...
 More information to follow...
 
 
+### Deployment
+
+#### Config directory
+
+The webapp has a set of properties files external to the war, the Maven config file populates this for jetty instance but if you run on Tomcat then specify this `config.dir` eg;
+
+```bash
+startTomcat -Dconfig.dir=/path/to/dir
+```
+
+#### Configuration files
+
+This directory must contain each of the files in the environments\example directory - this allows configuration of database connections, log4j, etc
+
 
 ### Development
 
