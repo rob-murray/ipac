@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ipac.app.dto.TeamedInterfaceDto;
 import com.ipac.app.model.Interface;
@@ -50,7 +51,7 @@ public class InterfaceController extends IpacWebController {
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/add"}, method = RequestMethod.GET, params = "hostId" )
-    public String getAdd( @RequestParam("hostId") Integer hostId, Model model) {
+    public String getAdd(final @RequestParam("hostId") Integer hostId, Model model) {
         
         logger.debug("Received request to show interface add page for host id: "+hostId);
         model.addAttribute("username", userService.getCurrentUsername());
@@ -83,7 +84,11 @@ public class InterfaceController extends IpacWebController {
     * @return redirect
     */
     @RequestMapping( value={"/add"}, method = RequestMethod.POST, params = "hostId" )
-    public String postAdd( @RequestParam("hostId") Integer hostId, @ModelAttribute("interfaceAttribute") HibernateInterface interfaceAttr, Model model ) {
+    public String postAdd(final @RequestParam("hostId") Integer hostId, 
+    		@ModelAttribute("interfaceAttribute") HibernateInterface interfaceAttr, 
+    		Model model,
+    		final RedirectAttributes redirectAttributes
+    	) {
         
         logger.debug("Received post request to add interace to host id: "+hostId);
         
@@ -93,7 +98,7 @@ public class InterfaceController extends IpacWebController {
         // Delegate to service
         interfaceService.add(hostId, interfaceAttr);
         
-        model.addAttribute("flashScope.message", "Interface added to host.");
+        redirectAttributes.addFlashAttribute("flashMessage", "Interface added to host.");
 
         // Redirect to url
         return "redirect:/hosts/"+hostId;
@@ -109,7 +114,7 @@ public class InterfaceController extends IpacWebController {
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/{interfaceId}/edit"}, method = RequestMethod.GET )
-    public String getEdit( @PathVariable Integer interfaceId, Model model) {
+    public String getEdit(final @PathVariable Integer interfaceId, Model model) {
         
         logger.debug("Received request to show interface edit page for id: "+interfaceId);
         model.addAttribute("username", userService.getCurrentUsername());
@@ -142,7 +147,11 @@ public class InterfaceController extends IpacWebController {
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/{interfaceId}/edit"}, method = RequestMethod.POST )
-    public String postEdit( @PathVariable Integer interfaceId, @ModelAttribute("interfaceAttribute") HibernateInterface interfaceObj, Model model ) {
+    public String postEdit(final @PathVariable Integer interfaceId, 
+    		@ModelAttribute("interfaceAttribute") HibernateInterface interfaceObj, 
+    		Model model,
+    		final RedirectAttributes redirectAttributes
+    	) {
         
         logger.debug("Received post request to edit interface id: "+interfaceId);
         
@@ -157,9 +166,9 @@ public class InterfaceController extends IpacWebController {
         
         Integer hostId = interfaceService.getHostIdFromInterface(interfaceId);
         
-        model.addAttribute("flashScope.message", "Interface edit saved.");
+        redirectAttributes.addFlashAttribute("flashMessage", "Interface edit saved.");
 
-	// Redirect to url
+        // Redirect to url
         return "redirect:/hosts/"+hostId;
         
         
@@ -172,7 +181,7 @@ public class InterfaceController extends IpacWebController {
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/{interfaceId}/delete"}, method = RequestMethod.GET )
-    public String postDelete( @PathVariable Integer interfaceId, Model model ) {
+    public String postDelete(final @PathVariable Integer interfaceId, Model model, final RedirectAttributes redirectAttributes ) {
         
         logger.debug("Received request to delete interface id: "+interfaceId);
         
@@ -196,7 +205,7 @@ public class InterfaceController extends IpacWebController {
             //delete interface
             interfaceService.delete(interfaceObj);
             
-            model.addAttribute("flashScope.message", "Interface deleted and teamed interfaces updated.");
+            redirectAttributes.addFlashAttribute("flashMessage", "Interface deleted and teamed interfaces updated.");
             
         }else{
             //Check interface is not part of a team
@@ -206,13 +215,13 @@ public class InterfaceController extends IpacWebController {
                 
                 interfaceService.delete(interfaceObj);
                 
-                model.addAttribute("flashScope.message", "Interface deleted.");
+                redirectAttributes.addFlashAttribute("flashMessage", "Interface deleted.");
 
             }else{
                 logger.debug("Error: Inteface is part of team. Unabled to proceed.");
 
                 //Error: interface is part of a team so pass error to view
-                model.addAttribute("flashScope.message", "Error: This interface is part of a team. Cannot delete.");
+                redirectAttributes.addFlashAttribute("flashMessage", "Error: This interface is part of a team. Cannot delete.");
             }
         }
         
@@ -228,7 +237,7 @@ public class InterfaceController extends IpacWebController {
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/team"}, method = RequestMethod.GET, params = "hostId" )
-    public String getTeam( @RequestParam("hostId") Integer hostId, Model model) {
+    public String getTeam(final @RequestParam("hostId") Integer hostId, Model model, final RedirectAttributes redirectAttributes) {
         
         logger.debug("Received request to show interface team page for host id: "+hostId);
         model.addAttribute("username", userService.getCurrentUsername());
@@ -269,7 +278,8 @@ public class InterfaceController extends IpacWebController {
         }else{
             
             logger.debug("Failed interfaceList.size() > 1 || interfaceValidator.testHasMatchingInTypes( interfaceList ) == true");
-            model.addAttribute("flashScope.message", "Error: not enough interfaces to team.");
+            
+            redirectAttributes.addFlashAttribute("flashMessage", "Error: not enough interfaces to team.");
             return "redirect:/hosts/"+hostId;
             
         }
@@ -288,7 +298,11 @@ public class InterfaceController extends IpacWebController {
      * @return redirect
      */
     @RequestMapping( value={"/team"}, method = RequestMethod.POST, params = "hostId" )
-    public String setTeam( @RequestParam("hostId") Integer hostId, @ModelAttribute("interfaceAttr") TeamedInterfaceDto teamedInterfaceDto, Model model ) {
+    public String setTeam(final @RequestParam("hostId") Integer hostId, 
+    		@ModelAttribute("interfaceAttr") TeamedInterfaceDto teamedInterfaceDto, 
+    		Model model,
+    		final RedirectAttributes redirectAttributes
+    	) {
         
         logger.debug("Received post request to team interaces hostid: "+hostId);
         
@@ -302,7 +316,7 @@ public class InterfaceController extends IpacWebController {
             logger.debug("Error: the selected intefaces count is less than 2");
             
             //Set error message
-            model.addAttribute("flashScope.message", "Error: You have not selected enough interfaces to team.");
+            redirectAttributes.addFlashAttribute("flashMessage", "Error: You have not selected enough interfaces to team.");
             
         }else{
             
@@ -324,7 +338,7 @@ public class InterfaceController extends IpacWebController {
             if(errorFlag == true){
                 logger.debug("Error: at least one of these interfaces has a problem and cannot proceed with teaming.");
 
-                model.addAttribute("flashScope.message", "Error: at least one of these interfaces has a problem and cannot proceed with teaming.");
+                redirectAttributes.addFlashAttribute("flashMessage", "Error: at least one of these interfaces has a problem and cannot proceed with teaming.");
             }else{
                 //Set the type ID to be the config teamedInterfaceId
                 teamedInterfaceDto.setTypeId( teamedInterfaceIdInt );
@@ -335,7 +349,7 @@ public class InterfaceController extends IpacWebController {
                 // Delegate to service
                 interfaceService.teamInterfaces(teamedInterfaceDto);  
 
-                model.addAttribute("flashScope.message", "Teamed interface created.");
+                redirectAttributes.addFlashAttribute("flashMessage", "Teamed interface created.");
             }              
             
         }

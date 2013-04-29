@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ipac.app.dto.VlanDto;
 import com.ipac.app.model.Site;
@@ -53,7 +54,7 @@ public class VlanController extends IpacWebController {
         model.addAttribute("vlans", vlansDto);
         
         //add flash message to page
-        model.addAttribute("flashScope.message", "Showing ALL vlans.");
+        model.addAttribute("flashMessage", "Showing ALL vlans.");
 
         
         // This will resolve to /WEB-INF/jsp/vlans/list.jsp
@@ -67,7 +68,7 @@ public class VlanController extends IpacWebController {
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/search"}, method = RequestMethod.GET, params = "siteId" )
-    public String getListBySite( @RequestParam("siteId") Integer siteId, Model model) {
+    public String getListBySite(final @RequestParam("siteId") Integer siteId, Model model) {
         
         logger.debug("Received request to show vlan list page by site id: "+siteId);
         model.addAttribute("username", userService.getCurrentUsername());
@@ -80,7 +81,7 @@ public class VlanController extends IpacWebController {
         model.addAttribute("vlans", vlansDto);
         
         //add flash message to page 
-        model.addAttribute("flashScope.message", "Showing ALL vlans for site id: "+siteId);
+        model.addAttribute("flashMessage", "Showing ALL vlans for site id: "+siteId);
 
         
         // This will resolve to /WEB-INF/jsp/vlans/list.jsp
@@ -95,7 +96,7 @@ public class VlanController extends IpacWebController {
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/{vlanId}"}, method = RequestMethod.GET )
-    public String getShow(@PathVariable Integer vlanId, Model model) {
+    public String getShow(final @PathVariable Integer vlanId, Model model) {
         
         logger.debug("Received request to show vlan id: "+vlanId);
         model.addAttribute("username", userService.getCurrentUsername());
@@ -144,7 +145,7 @@ public class VlanController extends IpacWebController {
     * @return redirect
     */
     @RequestMapping( value={"/add"}, method = RequestMethod.POST )
-    public String postAdd( @ModelAttribute("vlanAttribute") HibernateVlan vlan, Model model ) {
+    public String postAdd( @ModelAttribute("vlanAttribute") HibernateVlan vlan, Model model, final RedirectAttributes redirectAttributes ) {
         
         logger.debug("Received post request to add vlan");
         
@@ -161,7 +162,7 @@ public class VlanController extends IpacWebController {
         //Get new insert ID and view adds vlan.
         Integer vlanId = vlan.getId();
         
-        model.addAttribute("flashScope.message", "Created new VLAN");
+        redirectAttributes.addFlashAttribute("flashMessage", "Created new VLAN");
 
         // Redirect to url
         return "redirect:/vlans/"+vlanId;

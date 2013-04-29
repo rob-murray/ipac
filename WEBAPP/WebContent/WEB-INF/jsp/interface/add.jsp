@@ -64,11 +64,11 @@
                 <h3>Add Interface</h3>
                 
 
-<c:if test="${!empty flashScope.message}">
+		<c:if test="${!empty flashMessage}">
             <!-- session based flash message -->
-            <div id="flash-message"><p><c:out value="${flashScope.message}" /></p></div>
+            <div id="flash-message" class="alert alert-info"><p><c:out value="${flashMessage}" /></p></div>
             <!-- end -->
-        </c:if>            
+        </c:if>
         
         <p>Add interface to host ID: <c:out value="${hostId}" /></p>
         

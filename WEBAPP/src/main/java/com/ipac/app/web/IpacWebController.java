@@ -39,7 +39,7 @@ abstract class IpacWebController {
     *
     * @return The current version of this application as a String
     */    
-    protected String getCurrentIPACVersion(){
+    final protected String getCurrentIPACVersion(){
         //Return value from properties file or return NONE
     	return ((ipacVersion == null) ? "NONE" : ipacVersion);
     }
@@ -49,7 +49,7 @@ abstract class IpacWebController {
     *
     * @return the maximum items to display in lists
     */    
-    protected Integer getMaxListItems(){
+    final protected Integer getMaxListItems(){
         //Return value from properties file
         return maxListItems;
     } 
@@ -59,7 +59,7 @@ abstract class IpacWebController {
     *
     * @return an Integer to represent the Teamed Interface
     */    
-    protected Integer getTeamedInterfaceId(){
+    final protected Integer getTeamedInterfaceId(){
     	//Return value from properties file
     	return teamedInterfaceId;
     }    

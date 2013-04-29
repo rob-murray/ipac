@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ipac.app.dto.HostDto;
 import com.ipac.app.model.Host;
@@ -46,7 +47,7 @@ public class HostController extends IpacWebController {
      * @return the view
      */
     @RequestMapping( value={"/", ""}, method = RequestMethod.GET )
-    public String getIndex( Model model, @RequestParam(value="page", required=false) String page) {
+    public String getIndex( Model model, final @RequestParam(value="page", required=false) String page) {
         
         logger.debug("Received request to show host list page");
         
@@ -70,7 +71,7 @@ public class HostController extends IpacWebController {
         model.addAttribute("pagedHostView", pageHostView);
         
         //add flash message to page
-        model.addAttribute("flashScope.message", "Showing ALL hosts for all sites.");       
+        model.addAttribute("flashMessage", "Showing ALL hosts for all sites.");
         
         // This will resolve to /WEB-INF/jsp/hosts/list.jsp
         return "hosts/list";
@@ -86,7 +87,7 @@ public class HostController extends IpacWebController {
      * @return the view
      */
     @RequestMapping( value={"/search"}, method = RequestMethod.GET, params = "siteId" )
-    public String getSiteList( @RequestParam("siteId") Integer siteId, Model model, @RequestParam(value="page", required=false) String page) {
+    public String getSiteList(final @RequestParam("siteId") Integer siteId, Model model, final @RequestParam(value="page", required=false) String page) {
         
         logger.debug("Received request to show host list page for site id: "+siteId);
         
@@ -111,7 +112,7 @@ public class HostController extends IpacWebController {
         model.addAttribute("pagedHostView", pageHostView);
         
         //add flash message to page
-        model.addAttribute("flashScope.message", "Showing ALL hosts for site id: "+siteId); 
+        model.addAttribute("flashMessage", "Showing ALL hosts for site id: "+siteId); 
         
         // This will resolve to /WEB-INF/jsp/hosts/list.jsp
         return "hosts/list";
@@ -125,7 +126,7 @@ public class HostController extends IpacWebController {
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/{hostId}"}, method = RequestMethod.GET )
-    public String getShow(@PathVariable Integer hostId, Model model) {
+    public String getShow(final @PathVariable Integer hostId, Model model) {
         
         logger.debug("Received request to show host page individual for host: "+hostId);
         
@@ -137,6 +138,7 @@ public class HostController extends IpacWebController {
 
         //Attach to model
         model.addAttribute("host", dto);
+        
         
         // This will resolve to /WEB-INF/jsp/hosts/show.jsp
         return "hosts/show";
@@ -176,7 +178,7 @@ public class HostController extends IpacWebController {
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/add"}, method = RequestMethod.POST )
-    public String postAdd( @ModelAttribute("hostAttribute") HibernateHost host, Model model ) {
+    public String postAdd(@ModelAttribute("hostAttribute") HibernateHost host, Model model, final RedirectAttributes redirectAttributes) {
         
         logger.debug("Received post request to add host");
 
@@ -193,9 +195,9 @@ public class HostController extends IpacWebController {
         //Get new insert ID and view adds host
         Integer hostId = host.getId();
         
-        model.addAttribute("flashScope.message", "Host added.");
+        redirectAttributes.addFlashAttribute("flashMessage", "Host added");
 
-	// Redirect to url
+        // Redirect to url
         return "redirect:/hosts/"+hostId;
         
         
@@ -209,7 +211,7 @@ public class HostController extends IpacWebController {
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/{hostId}/edit"}, method = RequestMethod.GET )
-    public String getEdit(@PathVariable Integer hostId, Model model) {
+    public String getEdit(final @PathVariable Integer hostId, Model model) {
         
         logger.debug("Received request to show host edit page for id: "+hostId);
         
@@ -236,7 +238,7 @@ public class HostController extends IpacWebController {
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/{hostId}/edit"}, method = RequestMethod.POST )
-    public String postEdit( @PathVariable Integer hostId, @ModelAttribute("hostAttribute") HibernateHost host, Model model ) {
+    public String postEdit(final @PathVariable Integer hostId, @ModelAttribute("hostAttribute") HibernateHost host, Model model, final RedirectAttributes redirectAttributes ) {
         
         logger.debug("Received post request to edit host for id: "+hostId);
         
@@ -249,9 +251,9 @@ public class HostController extends IpacWebController {
         // Delegate to service
         hostService.editHost(host);
         
-        model.addAttribute("flashScope.message", "Host edit saved.");
+        redirectAttributes.addFlashAttribute("flashMessage", "Host edit saved.");
 
-	// Redirect to url
+        // Redirect to url
         return "redirect:/hosts/"+hostId;
         
         
@@ -264,14 +266,14 @@ public class HostController extends IpacWebController {
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/{hostId}/delete"}, method = RequestMethod.GET )
-    public String getDelete(@PathVariable Integer hostId, Model model) {
+    public String getDelete(final @PathVariable Integer hostId, Model model, final RedirectAttributes redirectAttributes) {
         
         logger.debug("Received request to delete host for id: "+hostId);
         
         // Delete host by id
     	hostService.deleteHost(hostId);
         
-        model.addAttribute("flashScope.message", "Host deleted.");
+    	redirectAttributes.addFlashAttribute("flashMessage", "Host deleted.");
         
         // Redirect to url
         return "redirect:/hosts";
@@ -332,7 +334,7 @@ public class HostController extends IpacWebController {
         model.addAttribute("pagedHostView", pageHostView);        
         
         //add flash message to page
-        model.addAttribute("flashScope.message", "Showing hosts searched for with string: '"+searchStr+"'.");
+        model.addAttribute("flashMessage", "Showing hosts searched for with string: '"+searchStr+"'.");
         
         return "hosts/list";
         

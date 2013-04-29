@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ipac.app.model.HostInterfaceIp;
 import com.ipac.app.model.Subnet;
@@ -43,7 +44,7 @@ public class SubnetController extends IpacWebController {
     * @return a List<Subnet> for the VLAN
     */
     @RequestMapping( method = RequestMethod.GET, headers="Accept=application/xml, application/json", params = "vlanId" )
-    public @ResponseBody List<Subnet> getListForVlanId( @RequestParam("vlanId") Integer vlanId ) {
+    public @ResponseBody List<Subnet> getListForVlanId(final @RequestParam("vlanId") Integer vlanId ) {
         
         logger.debug("Received request to list subnet by vlan id: "+vlanId);
         
@@ -60,7 +61,7 @@ public class SubnetController extends IpacWebController {
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/{subnetId}"}, method = RequestMethod.GET )
-    public String getShow( @PathVariable Integer subnetId, Model model ) {
+    public String getShow(final @PathVariable Integer subnetId, Model model ) {
         
         logger.debug("Received request to show subnet id: "+subnetId);
         model.addAttribute("username", userService.getCurrentUsername());
@@ -86,7 +87,7 @@ public class SubnetController extends IpacWebController {
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/add"}, method = RequestMethod.GET, params = "vlanId" )
-    public String getAdd( @RequestParam("vlanId") Integer vlanId, Model model ) {
+    public String getAdd(final @RequestParam("vlanId") Integer vlanId, Model model ) {
         
         logger.debug("Received request to show subnet add page. Attaching to vlan id: "+vlanId);
         model.addAttribute("username", userService.getCurrentUsername());
@@ -111,7 +112,11 @@ public class SubnetController extends IpacWebController {
     * @return redirect
     */
     @RequestMapping( value={"/add"}, method = RequestMethod.POST, params = "vlanId" )
-    public String postAdd( @RequestParam("vlanId") Integer vlanId, @ModelAttribute("subnetAttribute") HibernateSubnet subnet, Model model ) {
+    public String postAdd(final @RequestParam("vlanId") Integer vlanId, 
+    		@ModelAttribute("subnetAttribute") HibernateSubnet subnet, 
+    		Model model,
+    		final RedirectAttributes redirectAttributes
+    	) {
         
         logger.debug("Received request to show subnet add page. Attaching to vlan id: "+vlanId);
         
@@ -121,7 +126,7 @@ public class SubnetController extends IpacWebController {
         // Delegate to service
         subnetService.add(subnet, vlanId);
         
-        model.addAttribute("flashScope.message", "Subnet created.");
+        redirectAttributes.addFlashAttribute("flashMessage", "Subnet created.");
 
         // Redirect to url
         return "redirect:/vlans/"+vlanId;
@@ -137,7 +142,7 @@ public class SubnetController extends IpacWebController {
     */
     @RequestMapping( value={"/nextAvailableIp.json"}, method = RequestMethod.GET, 
     		headers="Accept=application/xml, application/json", params = "subnetId" )
-    public @ResponseBody List<String> getNext( @RequestParam("subnetId") Integer subnetId) {
+    public @ResponseBody List<String> getNext(final @RequestParam("subnetId") Integer subnetId) {
         
         logger.debug("Received GET request for next available IP address for subnet id: "+subnetId);
         

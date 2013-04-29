@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ipac.app.model.Switch;
 import com.ipac.app.model.hibernate.HibernateSwitchport;
@@ -42,7 +43,7 @@ public class SwitchportController extends IpacWebController {
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/connect"}, method = RequestMethod.GET, params = "interfaceId" )
-    public String getConnect(@RequestParam("interfaceId") Integer interfaceId, Model model) {
+    public String getConnect(final @RequestParam("interfaceId") Integer interfaceId, Model model) {
         
         logger.debug("Received request to show switchport connect page for interface id: "+interfaceId);
         model.addAttribute("username", userService.getCurrentUsername());
@@ -75,7 +76,10 @@ public class SwitchportController extends IpacWebController {
     * @return redirect
     */
     @RequestMapping( value={"/connect"}, method = RequestMethod.POST, params = "interfaceId" )
-    public String postConnect( @RequestParam("interfaceId") Integer interfaceId, @ModelAttribute("switchportAttribute") HibernateSwitchport switchport, Model model ) {
+    public String postConnect(final @RequestParam("interfaceId") Integer interfaceId, 
+    		@ModelAttribute("switchportAttribute") HibernateSwitchport switchport, Model model,
+    		final RedirectAttributes redirectAttributes
+    	) {
         
         logger.debug("Received post request to connect switchport to interface id: "+interfaceId);
         
@@ -84,7 +88,7 @@ public class SwitchportController extends IpacWebController {
         
         Integer hostId = interfaceService.getHostIdFromInterface(interfaceId);
         
-        model.addAttribute("flashScope.message", "Connected switchport to interface.");
+        redirectAttributes.addFlashAttribute("flashMessage", "Connected switchport to interface.");
 
         // Redirect to url
         return "redirect:/hosts/"+hostId;

@@ -35,16 +35,8 @@
 	</bean>
 
     <!-- Tell spring and hibernate were using annotation driven config -->
-    <!-- <mvc:annotation-driven /> RM removed to handle flashscope interceptor-->
+    <mvc:annotation-driven />
     <tx:annotation-driven />
-    
-    <!-- Add interceptor to handle flash messages -->
-    <bean id="flashScopeInterceptor" class="com.ipac.app.web.flashscope.FlashScopeInterceptor" />
-    <bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
-        <property name="interceptors">
-            <list><ref bean="flashScopeInterceptor"/></list>
-        </property>
-    </bean>    
 
     <!-- Config how to resolve views -->
     <bean id="jspViewResolver"

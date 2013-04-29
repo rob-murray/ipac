@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ipac.app.model.InterfaceIp;
 import com.ipac.app.model.Vlan;
 import com.ipac.app.model.hibernate.HibernateInterfaceIp;
 import com.ipac.app.service.InterfaceIpService;
 import com.ipac.app.service.InterfaceService;
-import com.ipac.app.service.SubnetService;
 import com.ipac.app.service.VlanService;
 
 
@@ -46,7 +46,7 @@ public class IpAddressController extends IpacWebController {
     * @return the name of the JSP page
     */
     @RequestMapping( value={"/addBasic"}, method = RequestMethod.GET, params = {"interfaceId","siteId"} )
-    public String getAdd( @RequestParam("interfaceId") Integer interfaceId, @RequestParam("siteId") Integer siteId, Model model) {
+    public String getAdd(final @RequestParam("interfaceId") Integer interfaceId, final @RequestParam("siteId") Integer siteId, Model model) {
         
         logger.debug("Received request to show interface IP add page for interface id: "+interfaceId);
         model.addAttribute("username", userService.getCurrentUsername());
@@ -76,8 +76,10 @@ public class IpAddressController extends IpacWebController {
      * @return redirect
      */
     @RequestMapping( value={"/addBasic"}, method = RequestMethod.POST, params = {"interfaceId","siteId"} )
-    public String postAdd( @RequestParam("interfaceId") Integer interfaceId, @RequestParam("siteId") Integer siteId, 
-    		@ModelAttribute("interfaceIpAttribute") HibernateInterfaceIp interfaceIp, Model model ) {
+    public String postAdd(final @RequestParam("interfaceId") Integer interfaceId, final @RequestParam("siteId") Integer siteId, 
+    		@ModelAttribute("interfaceIpAttribute") HibernateInterfaceIp interfaceIp, Model model,
+    		final RedirectAttributes redirectAttributes
+    	) {
         
         logger.debug("Received post request to add interface ip");
 
@@ -100,10 +102,7 @@ public class IpAddressController extends IpacWebController {
                 model.addAttribute("interfaceId", interfaceId);
                 
                 //Attach flash msg  
-                model.addAttribute("flashScope.message", "Error: IP Address already exists in database.");
-                
-                // Redirect to form
-                return "ip_address/addBasic";        		
+                model.addAttribute("flashMessage", "Error: IP Address already exists in database.");     		
         		
         	}else if(e.getMessage() == InterfaceIpService.Error.IP_NOT_IN_SUBNET.toString()){
         		
@@ -116,20 +115,19 @@ public class IpAddressController extends IpacWebController {
                 model.addAttribute("interfaceId", interfaceId);
                 
                 //Attach flash msg
-                model.addAttribute("flashScope.message", "Error: IP Address not in selected subnet.");
-                //model.addAttribute("flashMsg", "IP Address not in selected subnet");  
-                
-                // Redirect to form
-                return "ip_address/addBasic";        		
+                model.addAttribute("flashMessage", "Error: IP Address not in selected subnet.");
+                   		
         		
         	}
         	
+        	// Redirect to form
+            return "ip_address/addBasic";
+        	
         }
-        
         
         Integer hostId = interfaceService.getHostIdFromInterface(interfaceId);
         
-        model.addAttribute("flashScope.message", "IP address added.");
+        redirectAttributes.addFlashAttribute("flashMessage", "IP address added.");
         
         return "redirect:/hosts/"+hostId;
 
@@ -142,7 +140,7 @@ public class IpAddressController extends IpacWebController {
     * @return redirect
     */
     @RequestMapping( value={"/{interfaceIpId}/delete"}, method = RequestMethod.GET )
-    public String getDelete( @PathVariable Integer interfaceIpId, Model model ) {
+    public String getDelete(final @PathVariable Integer interfaceIpId, Model model ) {
         
         logger.debug("Received request to delete interfaceIp id: "+interfaceIpId);
         model.addAttribute("username", userService.getCurrentUsername());
@@ -155,7 +153,7 @@ public class IpAddressController extends IpacWebController {
         //delete InterfaceIp
         interfaceIpService.deleteInterfaceIp(interfaceIpId); 
         
-        model.addAttribute("flashScope.message", "IP address deleted.");
+        model.addAttribute("flashMessage", "IP address deleted.");
         
         return "redirect:/hosts/"+hostId;
     }    
@@ -168,7 +166,7 @@ public class IpAddressController extends IpacWebController {
     * @param siteId the ID of the site to relate to
     * @return model with added attributes
     */    
-    private Model setBasicViewModelAttrs(Model model, Integer siteId){
+    private Model setBasicViewModelAttrs(Model model,final Integer siteId){
         
         //Get all Subnets by site ID
         List<Vlan> vlanList = vlanService.getAll(siteId);
