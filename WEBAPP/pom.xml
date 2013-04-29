@@ -17,7 +17,8 @@
         <version.junit>4.8.2</version.junit>
         <version.servlet>2.0</version.servlet>
         <version.mockito>1.9.0-rc1</version.mockito>
-        <version.spring>3.1.0.RELEASE</version.spring>
+        <version.spring>3.2.2.RELEASE</version.spring>
+        <version.springsecurity>3.1.0.RELEASE</version.springsecurity>
         <version.hibernate>4.1.9.Final</version.hibernate>
         <version.jackson>1.9.4</version.jackson>
         <version.cglib>2.2.2</version.cglib>
@@ -221,19 +222,19 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
-			<version>${version.spring}</version>
+			<version>${version.springsecurity}</version>
 		</dependency>
  
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
-			<version>${version.spring}</version>
+			<version>${version.springsecurity}</version>
 		</dependency>
  
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
-			<version>${version.spring}</version>
+			<version>${version.springsecurity}</version>
 		</dependency>
         
 		<!-- Testing -->
