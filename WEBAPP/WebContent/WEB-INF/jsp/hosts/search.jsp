@@ -80,16 +80,13 @@
             
         <c:url var="searchUrl" value="/hosts/search" />
         <form:form method="GET" action="${searchUrl}">
-            
-            <table>
-		<tr>
-			<td><label for="searchStr">Name</label></td>
-                        <td><input id="searchStr" name="searchStr" type="text" value=""/></td>
-		</tr>
-		
-            </table>
-	
-            <input type="submit" value="Search" />
+        
+            <div class="form-search">
+            	<div class="input-append">
+            		<input type="text" class="span3 search-query" id="searchStr" name="searchStr">
+					<input type="submit" class="btn" value="Search">
+				</div>
+    		</div>
             
         </form:form>
 

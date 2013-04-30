@@ -63,7 +63,7 @@
 	        <div class="span12">
                 <h3>Create Teamed interface</h3>
                 
-                <p>Select the interfaces from which to create one Teamed interface</p>
+                <p>Select the interfaces from which to create one Teamed interface.</p>
 
 		<c:if test="${!empty flashMessage}">
             <!-- session based flash message -->
@@ -72,39 +72,35 @@
         </c:if>      
         
         <c:url var="saveUrl" value="/interface/team?hostId=${hostId}" />
-        <form:form modelAttribute="interfaceAttr" method="POST" action="${saveUrl}">
-            
-            <table>
-		<tr>
-			<td><form:label path="name">Name:</form:label></td>
-			<td><form:input path="name"/></td>
-		</tr>
-
-                <tr>
-                    <td>Select interfaces</td>
-                    <td>
-   
-
-                        
-<c:forEach items="${interfaceMap}" var="entry" varStatus="status">
-    <c:out value="${entry.value}" /><form:checkbox path="memberInterfaceIds" value="${entry.key}" name="${entry.value}"/><br />
-    
+        <form:form modelAttribute="interfaceAttr" method="POST" action="${saveUrl}" class="form-horizontal">
+        
+        	<div class="control-group">
+    			<form:label class="control-label" path="name">Name:</form:label>
+    			<div class="controls">
+    				<form:input path="name" placeholder="eg TEAM"/>
+    			</div>
+    		</div>
+    		
+    		<div class="control-group">
+    			<p>Select interfaces:</p>
+    			
+<c:forEach items="${interfaceMap}" var="entry" varStatus="status">    			
+    			<label class="checkbox">
+					<form:checkbox class="checkbox" path="memberInterfaceIds" value="${entry.key}" name="${entry.value}"/>
+						<c:out value="${entry.value}" />
+				</label>
 </c:forEach>
-                        
-                    </td>
-                </tr>    
+    		</div>
+ 
+            
+            <div class="form-actions">
+    			<button type="submit" class="btn btn-primary">Save changes</button>
+    			<a class="btn" href="${pageContext.request.contextPath}/hosts/${hostId}" title="Cancel">Cancel</a>
+    		</div>
 
-
-		
-            </table>
-                               
-	
-            <input type="submit" value="Save" />
             
         </form:form>
         
-        <p><a class="btn" href="${pageContext.request.contextPath}/hosts/${hostId}" title="Cancel interface edit">Cancel</a></p>
-
             </div>
         </div>
         

@@ -76,7 +76,7 @@
             
             <table class="table table-bordered">
                 <tr>
-                    <td><label for="vlanid">Vlan:</label></td>
+                    <td><label for="vlanid">VLAN:</label></td>
                     <td>
                         <select name="vlanId" id="vlanId" onchange="ipac.getListSubnets(); return false;">
                             <option value="0">- - -</option>
@@ -94,22 +94,28 @@
 
                 
 		<tr>
-			<td><form:label path="ipAddress">ipAddress:</form:label></td>
-			<td><form:input path="ipAddress"/></td>
+			<td><form:label path="ipAddress">IP Address:<br>
+				Get <a href="#" title="Get next ip" onclick="ipac.getNextAvailableIp();return false;">next available IP</a>
+				</form:label>
+			</td>
+			<td>
+				<form:input path="ipAddress"/>
+			</td>
 		</tr>
 	
             </table>
             
-            <p>Get <a href="#" title="Get next ip" onclick="ipac.getNextAvailableIp();return false;">next available IP</a></p>
-            <p id="status-update"></p>
-	
-            <input type="submit" value="Save" />
             
-            <p><a class="btn" href="javascript:history.back();" title="Cancel IP address">Cancel</a></p>
+            <div class="form-actions">
+    			<button type="submit" class="btn btn-primary">Save changes</button>
+    			<a class="btn" href="javascript:history.back();" title="Cancel">Cancel</a>
+    		</div>
+            
+            
             
         </form:form>
             
-            
+            <p id="status-update"></p>
             
         
 

@@ -70,22 +70,21 @@
         </c:if>       
         
         <c:url var="saveUrl" value="/subnets/add?vlanId=${vlanId}" />
-        <form:form modelAttribute="subnetAttribute" method="POST" action="${saveUrl}">
-            
-            <table>
-		<tr>
-			<td><form:label path="ipAddress">IP Address of subnet as cidr: eg 10.1.1.0/24</form:label></td>
-			<td><form:input path="ipAddress"/></td>
-		</tr>
-		
-            </table>
-	
-            <input type="submit" value="Save" />
+        <form:form modelAttribute="subnetAttribute" method="POST" action="${saveUrl}" class="form-horizontal">
+        
+        	<div class="control-group">
+    			<form:label class="control-label" path="ipAddress">IP Address of subnet in CIDR format:</form:label>
+    			<div class="controls">
+    				<form:input path="ipAddress" placeholder="eg 10.1.1.0/24"/>
+    			</div>
+    		</div>
+        
+        	<div class="form-actions">
+    			<button type="submit" class="btn btn-primary">Save changes</button>
+    			<a class="btn" href="${pageContext.request.contextPath}/vlans/${vlanId}" title="Cancel">Cancel</a>
+    		</div>
             
         </form:form>
-        
-        <p><a class="btn" href="${pageContext.request.contextPath}/vlans/${vlanId}" title="Cancel new subnet">Cancel</a></p>
-
 
             </div>
         </div>

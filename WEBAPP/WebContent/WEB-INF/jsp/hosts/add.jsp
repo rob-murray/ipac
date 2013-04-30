@@ -70,32 +70,35 @@
         </c:if>
             
         <c:url var="saveUrl" value="/hosts/add" />
-        <form:form modelAttribute="hostAttribute" method="POST" action="${saveUrl}">
+        <form:form modelAttribute="hostAttribute" method="POST" action="${saveUrl}" class="form-horizontal">
+        
+        	<div class="control-group">
+    			<form:label class="control-label" path="name">Name:</form:label>
+    			<div class="controls">
+    				<form:input path="name"/>
+    			</div>
+    		</div>
+    		<div class="control-group">
+    			<form:label class="control-label" path="notes">Notes:</form:label>
+    			<div class="controls">
+    				<form:textarea path="notes"/>
+    			</div>
+    		</div>
+    		
+    		<div class="control-group">
+    			<form:label class="control-label" path="siteId">Site:</form:label>
+    			<div class="controls">
+    				<form:select path="siteId" items="${siteList}" itemLabel="name" itemValue="id"/>
+    			</div>
+    		</div>
+ 
             
-            <table>
-		<tr>
-			<td><form:label path="name">Name:</form:label></td>
-			<td><form:input path="name"/></td>
-                        
-		</tr>
-
-		<tr>
-			<td><form:label path="notes">Notes:</form:label></td>
-                        <td><form:textarea path="notes"/></td>
-		</tr>
-                
-             	<tr>
-			<td><form:label path="siteId">Site:</form:label></td>
-                        <td><form:select path="siteId" items="${siteList}" itemLabel="name" itemValue="id"/></td>
-		</tr>   
-		
-            </table>
-	
-            <input type="submit" value="Save" />
+            <div class="form-actions">
+    			<button type="submit" class="btn btn-primary">Save changes</button>
+    			<a class="btn" href="${pageContext.request.contextPath}/hosts" title="Cancel">Cancel</a>
+    		</div>
             
         </form:form>
-        
-        <p><a class="btn" href="${pageContext.request.contextPath}/hosts" title="Cancel new host">Cancel</a></p>
         
         </div>
         </div>

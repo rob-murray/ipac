@@ -61,7 +61,7 @@
 
         <div class="row">
 	        <div class="span12">
-                <h3>switchport connect</h3>
+                <h3>Connect interface to switchport</h3>
                 
 
 		<c:if test="${!empty flashMessage}">
@@ -69,8 +69,6 @@
             <div id="flash-message" class="alert alert-info"><p><c:out value="${flashMessage}" /></p></div>
             <!-- end -->
         </c:if>    
-        
-        <p>Connect interface to switchport</p>
         
         <c:url var="saveUrl" value="/switchport/connect?interfaceId=${interfaceId}" />
         <form:form modelAttribute="switchportAttribute" method="POST" action="${saveUrl}">
@@ -98,12 +96,12 @@
                 
             </table>
 	
-            <input type="submit" value="Save" />
+            <div class="form-actions">
+    			<button type="submit" class="btn btn-primary">Save changes</button>
+    			<a class="btn" href="javascript:history.back();" title="Cancel">Cancel</a>
+    		</div>
             
         </form:form>
-        
-        <p><a class="btn" href="javascript:history.back();" title="Cancel connect">Cancel</a></p>
-
 
             </div>
         </div>

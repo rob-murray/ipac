@@ -80,9 +80,8 @@
         <table class="table table-bordered">
             <thead>
 		<tr>
-                    <th>Id</th>
                     <th>Name</th>
-                    <th>Notes</th>
+                    <th width="30%">Notes</th>
                     <th>Site</th>
                     <th>Date Created</th>
                 </tr>
@@ -93,9 +92,8 @@
                         <c:url var="showUrl" value="/hosts/${host.id}" />
                         <c:url var="siteUrl" value="/hosts/search?siteId=${host.site.id}" />
                         <tr>
-                            <td><c:out value="${host.id}" /></td>
-                            <td><a href="${showUrl}"><c:out value="${host.name}" /></a></td>
-                            <td><c:out value="${host.notes}" /></td>
+                            <td width="30%"><a href="${showUrl}"><c:out value="${host.name}" /></a></td>
+                            <td width="40%"><c:out value="${host.notes}" /></td>
                             <td><a href="${siteUrl}"><c:out value="${host.site.name}" /></a></td>
                             <td><c:out value="${host.getFormattedDateCreated()}" /></td>
                         </tr>
