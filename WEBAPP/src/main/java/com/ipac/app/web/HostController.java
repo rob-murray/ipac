@@ -70,9 +70,6 @@ public class HostController extends IpacWebController {
         pageHostView.setHosts(hostService.getAllHosts(pageHostView.getNavInfo().getCurrentPage(), pageHostView.getNavInfo().getPageSize()));
         model.addAttribute("pagedHostView", pageHostView);
         
-        //add flash message to page
-        model.addAttribute("flashMessage", "Showing ALL hosts for all sites.");
-        
         // This will resolve to /WEB-INF/jsp/hosts/list.jsp
         return "hosts/list";
         
@@ -110,9 +107,6 @@ public class HostController extends IpacWebController {
         pageHostView.setHosts( hostService.getAllHosts(siteId, pageHostView.getNavInfo().getCurrentPage(), pageHostView.getNavInfo().getPageSize()) );
         //add to model
         model.addAttribute("pagedHostView", pageHostView);
-        
-        //add flash message to page
-        model.addAttribute("flashMessage", "Showing ALL hosts for site id: "+siteId); 
         
         // This will resolve to /WEB-INF/jsp/hosts/list.jsp
         return "hosts/list";
